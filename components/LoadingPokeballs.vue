@@ -8,10 +8,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-// Component logic here if needed
-</script>
-
 <style scoped>
 .loading-container {
   text-align: center;

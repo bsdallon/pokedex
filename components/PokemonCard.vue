@@ -8,7 +8,7 @@
       <img :src="pokemon.sprites.front_default" :alt="pokemon.name">
     </div>
     <div class="pokemon-info">
-      <h3>{{ formatName(pokemon.name) }}</h3>
+      <h3 class="pokemon-name">{{ formatName(pokemon.name) }}</h3>
       <div class="pokemon-types">
         <span 
           v-for="type in pokemon.types" 
@@ -53,19 +53,26 @@ const formatId = (id: number): string => {
 
 <style scoped>
 .pokemon-card {
-  background-color: #ffffff;
+  background-color: var(--card-color);
   border-radius: 12px;
   padding: 1rem;
   text-decoration: none;
-  color: inherit;
+  color: var(--text-color);
   transition: all 0.2s;
   display: block;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pokemon-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #0075BE;
+}
+
+:root:not([data-theme="light"]) .pokemon-card:hover {
+  border-color: var(--accent-color);
 }
 
 .pokemon-header {
@@ -75,16 +82,17 @@ const formatId = (id: number): string => {
 }
 
 .pokemon-number {
-  color: #666;
+  color: var(--text-color);
   font-size: 0.9rem;
 }
 
 .pokemon-image {
-  background-color: #f8f8f8;
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pokemon-image img {
@@ -110,8 +118,9 @@ const formatId = (id: number): string => {
 
 .pokemon-info h3 {
   margin: 0 0 0.5rem;
-  color: #333;
+  color: var(--text-color);
   font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .pokemon-types {

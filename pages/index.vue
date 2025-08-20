@@ -222,6 +222,8 @@ const resetAdvancedFilters = () => {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding-right: 2.5rem;
+  background-color: #FFFFFF;
+  color: #333333;
 }
 
 .clear-search {
@@ -260,7 +262,8 @@ const resetAdvancedFilters = () => {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: white;
+  background-color: #FFFFFF;
+  color: #333333;
 }
 
 .generation-filter {
@@ -290,6 +293,8 @@ const resetAdvancedFilters = () => {
   border-radius: 4px;
   text-align: center;
   font-size: 1rem;
+  background-color: #FFFFFF;
+  color: #333333;
 }
 
 .range-input:focus {
@@ -336,13 +341,14 @@ const resetAdvancedFilters = () => {
 .reset-filters-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #9c27b0;
-  color: white;
+  background-color: #FAED26;
+  color: #463344;
   border: none;
   border-radius: 4px;
   font-size: 0.9rem;
   width: 100%;
   user-select: none;
+  font-weight: 600;
 }
 
 .reset-filters-button:hover {
