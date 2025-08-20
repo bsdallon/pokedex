@@ -1,3 +1,179 @@
 body {
-    color: red;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f0f2f5;
+}
+
+/* Make all content unselectable by default */
+* {
+  cursor: default !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Allow pointer cursor for clickable elements */
+button, 
+a {
+  cursor: pointer !important;
+}
+
+/* Only show text cursor and allow text selection for the search input */
+.search-input {
+  cursor: text !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Prevent text cursor on other inputs */
+input:not(.search-input),
+select,
+textarea {
+  cursor: default !important;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Global input styles */
+input[type="text"],
+input[type="number"],
+select {
+  cursor: text;
+}
+
+/* Search input styles */
+.search-container {
+  margin: 2rem auto;
+  text-align: center;
+  max-width: 800px;
+}
+
+.search-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.type-select-container {
+  position: relative;
+  min-width: 150px;
+}
+
+.type-select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.selected-type-display {
+  min-width: 150px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.type-select:hover + .selected-type-display,
+.type-select:focus + .selected-type-display {
+  border-color: #e3350d;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.clear-search {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.clear-search:hover {
+  color: #e3350d;
+  background-color: #f0f0f0;
+}
+
+.search-input:focus {
+  border-color: #e3350d;
+}
+
+/* Pokemon grid */
+.pokemon-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  /* Default - mobile first */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+/* Responsive grid adjustments */
+@media (min-width: 640px) {
+  .pokemon-grid {
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .pokemon-grid {
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
 }
