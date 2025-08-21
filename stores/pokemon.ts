@@ -212,10 +212,7 @@ export const usePokemonStore = defineStore('pokemon', {
       const config = useRuntimeConfig();
       this.isLoading = true;
       
-      try {
-        // Artificial delay to show loading animation (2 seconds)
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
+      try {        
         const response = await $fetch(`${config.public.apiBase}/pokemon?limit=1025`);  
 
         const validatedList = PokemonListResponseSchema.parse(response);       
@@ -271,7 +268,7 @@ export const usePokemonStore = defineStore('pokemon', {
       
       if (generation) {
         const generations = this.allGenerations;
-        
+
         if (generations[generation]) {
           const range = generations[generation].range;
           this.rangeMin = range[0];

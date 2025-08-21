@@ -2,6 +2,7 @@
 @import './components/sort.css';
 @import './components/sort-container.css';
 @import './pages/index.css';
+@import './pages/pokemon-detail.css';
 
 :root {
   --background-color: #F5F5F5;

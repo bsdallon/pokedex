@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="header-content">
       <div class="header-left">
-        <h1 class="pokemon-title">PokéDex</h1>
+        <h1 class="pokemon-title" @click="navigateToHome" style="cursor: pointer;">PokéDex</h1>
       </div>
       <div class="header-right">
         <HamburgerMenu />
@@ -13,6 +13,10 @@
 
 <script setup lang="ts">
 import HamburgerMenu from './HamburgerMenu.vue'
+
+const navigateToHome = () => {
+  navigateTo('/')
+}
 </script>
 
 <style scoped>
