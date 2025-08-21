@@ -114,13 +114,25 @@ export const usePokemonStore = defineStore('pokemon', {
     selectedTypes: [] as string[],
     filterMode: 'type' as 'type' | 'weakness',
     selectedGeneration: '',
-    isLoading: false,
+    loadingStates: {
+      fetchingList: false,
+      fetchingDetail: false,
+      fetchingEvolution: false,
+      global: false
+    },
+    error: null as string | null,
     rangeMin: 1,
     rangeMax: 60,
-    sortOption: 'id-asc'
+    sortOption: 'id-asc',
+    lastFetchTime: 0,
+    cacheExpiration: 3600000
   }),
 
   getters: {
+    isLoading(): boolean {
+      return Object.values(this.loadingStates).some(state => state === true);
+    },
+    
     filteredPokemons(): Pokemon[] {
       const query = this.searchQuery.toLowerCase().trim();
       
@@ -207,10 +219,27 @@ export const usePokemonStore = defineStore('pokemon', {
   },
 
   actions: {
+    setLoadingState(state: keyof typeof this.loadingStates, value: boolean) {
+      this.loadingStates[state] = value;
+      this.loadingStates.global = Object.values(this.loadingStates).some(
+        (s, i) => s === true && Object.keys(this.loadingStates)[i] !== 'global'
+      );
+    },
 
     async fetchPokemons() {
+      const now = Date.now();
+      const cachedData = this.loadCachedData();
+      
+      if (cachedData && 
+          this.pokemons.length > 0 && 
+          (now - this.lastFetchTime) < this.cacheExpiration) {
+        console.log('Using cached Pokemon data');
+        return;
+      }
+      
       const config = useRuntimeConfig();
-      this.isLoading = true;
+      this.setLoadingState('fetchingList', true);
+      this.error = null;
       
       try {        
         const response = await $fetch(`${config.public.apiBase}/pokemon?limit=1025`);  
@@ -226,11 +255,44 @@ export const usePokemonStore = defineStore('pokemon', {
         );
         
         this.pokemons = pokemonDetails;
+        this.lastFetchTime = now;
+        this.cacheData();
       } catch (error) {
         console.error('Error fetching Pokemon:', error);
+        this.error = 'Failed to fetch Pokemon data. Please try again.';
       } finally {
-        this.isLoading = false;
+        this.setLoadingState('fetchingList', false);
       }
+    },
+    
+    cacheData() {
+      try {
+        if (process.client) {
+          localStorage.setItem('pokemon-cache', JSON.stringify({
+            pokemons: this.pokemons,
+            timestamp: this.lastFetchTime
+          }));
+        }
+      } catch (error) {
+        console.error('Error caching Pokemon data:', error);
+      }
+    },
+    
+    loadCachedData() {
+      try {
+        if (process.client) {
+          const cachedData = localStorage.getItem('pokemon-cache');
+          if (cachedData) {
+            const { pokemons, timestamp } = JSON.parse(cachedData);
+            this.pokemons = pokemons;
+            this.lastFetchTime = timestamp;
+            return true;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading cached Pokemon data:', error);
+      }
+      return false;
     },
 
     setSearchQuery(query: string) {

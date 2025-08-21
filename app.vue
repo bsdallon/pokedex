@@ -7,8 +7,8 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </Head>
     <MainLayout>
-      <LoadingPokeballs v-if="isLoading" />
-      <NuxtPage @loading-start="setLoading(true)" @loading-end="setLoading(false)" />
+      <LoadingPokeballs v-if="store.isLoading" />
+      <NuxtPage />
     </MainLayout>
   </div>
 </template>
@@ -17,17 +17,10 @@
 @import './assets/styles/variables.css';
 </style>
 
-<script setup>
+<script setup lang="ts">
 import MainLayout from '~/components/MainLayout.vue';
 import LoadingPokeballs from '~/components/LoadingPokeballs.vue';
+import { usePokemonStore } from '~/stores/pokemon';
 
-const isLoading = ref(true);
-
-const setLoading = (status) => {
-  isLoading.value = status;
-};
-
-onMounted(() => {
-  isLoading.value = true;
-});
+const store = usePokemonStore();
 </script>

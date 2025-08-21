@@ -46,7 +46,6 @@ import SortOptions from '~/components/SortOptions.vue';
 const MIN_POKEMON_ID = 1;
 const MAX_POKEMON_ID = 1025;
 
-const emit = defineEmits(['loading-start', 'loading-end']);
 const store = usePokemonStore();
 const searchQuery = ref('');
 const selectedGeneration = ref('');
@@ -59,17 +58,10 @@ const filterMode = computed({
 });
 
 onMounted(async () => {
-  emit('loading-start');
-  
   try {
     await store.fetchPokemons();
-    
-    setTimeout(() => {
-      emit('loading-end');
-    }, 200);
   } catch (error) {
     console.error('Error loading data:', error);
-    emit('loading-end');
   }
 });
 

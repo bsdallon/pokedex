@@ -90,8 +90,7 @@ const closeMenu = () => {
 }
 
 const showAbout = () => {
-  // We'll implement this with a modal later
-  alert('Pokédex App\nVersion 1.0\nCreated with ❤️ using Vue and the PokeAPI')
+  navigateTo('/about')
   closeMenu()
 }
 

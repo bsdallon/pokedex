@@ -1,15 +1,14 @@
-<!-- Pokemon Card Component -->
 <template>
   <NuxtLink :to="`/pokemon/${pokemon.id}`" class="pokemon-card">
-    <div class="pokemon-header">
-      <span class="pokemon-number">#{{ formatId(pokemon.id) }}</span>
+    <div class="pokemon-card__header">
+      <span class="pokemon-card__number">#{{ formatPokemonId(pokemon.id) }}</span>
     </div>
-    <div class="pokemon-image">
+    <div class="pokemon-card__image">
       <img :src="pokemon.sprites.front_default" :alt="pokemon.name">
     </div>
-    <div class="pokemon-content">
-      <h3 class="pokemon-name">{{ formatName(pokemon.name) }}</h3>
-      <div class="pokemon-types">
+    <div class="pokemon-card__content">
+      <h3 class="pokemon-card__name">{{ formatName(pokemon.name) }}</h3>
+      <div class="pokemon-card__types">
         <span 
           v-for="type in pokemon.types" 
           :key="type.type.name"
@@ -23,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+import { formatName, formatPokemonId } from '~/utils/formatters';
+
 interface PokemonType {
   type: {
     name: string;
@@ -41,17 +42,10 @@ interface Pokemon {
 const props = defineProps<{
   pokemon: Pokemon;
 }>();
-
-const formatName = (name: string): string => {
-  return name.charAt(0).toUpperCase() + name.slice(1);
-};
-
-const formatId = (id: number): string => {
-  return String(id).padStart(4, '0');
-};
 </script>
 
 <style scoped>
+
 .pokemon-card {
   background-color: var(--card-color);
   border-radius: 12px;
@@ -70,18 +64,18 @@ const formatId = (id: number): string => {
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.pokemon-header {
+.pokemon-card__header {
   text-align: right;
   margin-bottom: 0.25rem;
   user-select: none;
 }
 
-.pokemon-number {
+.pokemon-card__number {
   color: var(--text-color);
   font-size: 0.9rem;
 }
 
-.pokemon-image {
+.pokemon-card__image {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 0.5rem;
@@ -90,7 +84,7 @@ const formatId = (id: number): string => {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.pokemon-image img {
+.pokemon-card__image img {
   width: 100%;
   height: auto;
   max-width: 110px;
@@ -101,11 +95,11 @@ const formatId = (id: number): string => {
   pointer-events: none;
 }
 
-.pokemon-card:hover .pokemon-image img {
+.pokemon-card:hover .pokemon-card__image img {
   transform: scale(1.3);
 }
 
-.pokemon-content {
+.pokemon-card__content {
   text-align: center;
   user-select: none;
   display: flex;
@@ -114,14 +108,14 @@ const formatId = (id: number): string => {
   justify-content: space-between;
 }
 
-.pokemon-name {
+.pokemon-card__name {
   margin: 0.5rem 0;
   color: var(--text-color);
   font-size: 1.2rem;
   font-weight: bold;
 }
 
-.pokemon-types {
+.pokemon-card__types {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

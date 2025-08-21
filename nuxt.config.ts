@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'https://pokeapi.co/api/v2'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE
     }
   }
 })
