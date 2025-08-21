@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-container">
+  <div class="loading-overlay">
     <div class="pokeballs">
       <div class="pokeball"></div>
       <div class="pokeball"></div>
@@ -9,14 +9,17 @@
 </template>
 
 <style scoped>
-.loading-container {
-  text-align: center;
-  padding: 2rem;
+.loading-overlay {
+  position: fixed;
+  top: var(--header-height, 60px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  margin: auto;
+  z-index: 1000;
 }
 
 .pokeballs {

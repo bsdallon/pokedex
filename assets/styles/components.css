@@ -55,12 +55,7 @@
 }
 
 .type-selected {
-  transform: scale(1.03);
-  box-shadow: 
-    0 0 0 1.5px white,
-    0 0 0 3px #0075BE,
-    0 2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  transform: scale(1.08);  /* Increased from 1.03 to 1.08 for more growth */
   filter: brightness(1.05) contrast(1.05);
 }
 
@@ -79,7 +74,6 @@
   display: none;
 }
 
-/* Form controls */
 .input-field {
   width: 100%;
   padding: 0.75rem;
@@ -93,8 +87,7 @@
 
 .input-field:focus {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
+  border-color: var(--accent-color);  
 }
 
 .select-field {
@@ -116,7 +109,6 @@
 .select-field:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
 }
 
 .toggle-switch {
@@ -147,7 +139,7 @@
 .toggle-option.active {
   background-color: #3a5da8;
   color: white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(58, 93, 168, 0.2);
 }
 
 .toggle-option:not(.active):hover {

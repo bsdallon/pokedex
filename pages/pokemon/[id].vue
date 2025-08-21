@@ -27,13 +27,13 @@
         </div>
       </div>
     </div>
-    <div v-else class="loading">Loading...</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Pokemon } from '~/types/pokemon';
 
+const emit = defineEmits(['loading-start', 'loading-end']);
 const route = useRoute();
 const pokemon = ref<Pokemon | null>(null);
 
@@ -48,11 +48,14 @@ const formatAbilities = (abilities: Pokemon['abilities']): string => {
 };
 
 onMounted(async () => {
+  emit('loading-start');
   try {
     const config = useRuntimeConfig();
     pokemon.value = await $fetch<Pokemon>(`${config.public.apiBase}/pokemon/${route.params.id}`);
+    emit('loading-end');
   } catch (error) {
     console.error('Error fetching Pokemon details:', error);
+    emit('loading-end');
   }
 });
 </script>

@@ -68,7 +68,7 @@ export const useThemesStore = defineStore('themes', {
       document.documentElement.style.setProperty('--background-color', colors.background)
       document.documentElement.style.setProperty('--card-color', colors.card)
       document.documentElement.style.setProperty('--accent-color', colors.accent)
-      document.documentElement.style.setProperty('--text-color', colors.text)
+      document.documentElement.style.setProperty('--text-color', colors.text)  
     }
   }
 })

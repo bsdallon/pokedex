@@ -1,45 +1,38 @@
 <template>
-  <div class="container">
-    <div v-if="isPageLoading" class="loading-wrapper">
-      <LoadingPokeballs />
+  <div class="container" v-cloak>
+    <div class="search-container">
+      <div class="search-controls">
+        <SearchBar
+          v-model:searchQuery="searchQuery"
+          v-model:showFilters="showAdvancedFilters"
+        />
+        
+        <AdvancedFilters
+          :show="showAdvancedFilters"
+          v-model:rangeMin="rangeMin"
+          v-model:rangeMax="rangeMax"
+          v-model:selectedGeneration="selectedGeneration"
+          v-model:filterMode="filterMode"
+          v-model:selectedTypes="store.$state.selectedTypes"
+          :generations="store.allGenerations"
+          :pokemonTypes="store.pokemonTypes"
+          @resetFilters="resetAdvancedFilters"
+        />
+      </div>
     </div>
-
-    <div v-else>
-      <div class="search-container">
-        <div class="search-controls">
-          <SearchBar
-            v-model:searchQuery="searchQuery"
-            v-model:showFilters="showAdvancedFilters"
-          />
-          
-          <AdvancedFilters
-            :show="showAdvancedFilters"
-            v-model:rangeMin="rangeMin"
-            v-model:rangeMax="rangeMax"
-            v-model:selectedGeneration="selectedGeneration"
-            v-model:filterMode="filterMode"
-            v-model:selectedTypes="store.$state.selectedTypes"
-            :generations="store.allGenerations"
-            :pokemonTypes="store.pokemonTypes"
-            @resetFilters="resetAdvancedFilters"
-          />
-
-        </div>
-      </div>
       
-      <div class="sort-container">
-        <SortOptions 
-          v-model:sortOption="store.sortOption"
-        />
-      </div>
+    <div class="sort-container">
+      <SortOptions 
+        v-model:sortOption="store.sortOption"
+      />
+    </div>
       
-      <div class="pokemon-grid">
-        <PokemonCard
-          v-for="pokemon in store.filteredPokemons"
-          :key="pokemon.id"
-          :pokemon="{ ...pokemon, types: pokemon.types ?? [] }"
-        />
-      </div>
+    <div class="pokemon-grid">
+      <PokemonCard
+        v-for="pokemon in store.filteredPokemons"
+        :key="pokemon.id"
+        :pokemon="{ ...pokemon, types: pokemon.types ?? [] }"
+      />
     </div>
   </div>
 </template>
@@ -50,20 +43,11 @@ import SearchBar from '~/components/SearchBar.vue';
 import AdvancedFilters from '~/components/AdvancedFilters.vue';
 import SortOptions from '~/components/SortOptions.vue';
 
-useHead({
-  script: [
-    {
-      innerHTML: `document.documentElement.classList.add('loading');`,
-      type: 'text/javascript',
-    }
-  ]
-});
-
 const MIN_POKEMON_ID = 1;
 const MAX_POKEMON_ID = 1025;
 
+const emit = defineEmits(['loading-start', 'loading-end']);
 const store = usePokemonStore();
-const isPageLoading = ref(true);
 const searchQuery = ref('');
 const selectedGeneration = ref('');
 const rangeMin = ref(store.$state.rangeMin.toString());
@@ -75,19 +59,17 @@ const filterMode = computed({
 });
 
 onMounted(async () => {
-  isPageLoading.value = true;
+  emit('loading-start');
   
   try {
     await store.fetchPokemons();
     
     setTimeout(() => {
-      document.documentElement.classList.remove('loading');
-      isPageLoading.value = false;
+      emit('loading-end');
     }, 200);
   } catch (error) {
     console.error('Error loading data:', error);
-    isPageLoading.value = false;
-    document.documentElement.classList.remove('loading');
+    emit('loading-end');
   }
 });
 

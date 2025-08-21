@@ -1,5 +1,5 @@
 <template>
-  <div class="advanced-filters" :class="{ 'show': show }">
+  <div class="advanced-filters" :class="{ 'show': show }" v-cloak>
     <div class="advanced-filters-content">
       <div class="top-filters">
         <div class="filter-half">

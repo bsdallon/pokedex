@@ -28,15 +28,23 @@ import HamburgerMenu from './HamburgerMenu.vue'
   padding: 0.5rem 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   margin-bottom: 1.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  height: var(--header-height, 60px);
+  width: 100%;
 }
 
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 calc(1rem + 4px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .header-left {

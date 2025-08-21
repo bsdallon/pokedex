@@ -61,7 +61,6 @@
 .generation-select:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
 }
 
 .generation-select option {
@@ -91,8 +90,7 @@
 
 .range-input:focus {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
+  border-color: var(--accent-color);  
 }
 
 .type-filter-container {
