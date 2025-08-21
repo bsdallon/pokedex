@@ -7,7 +7,7 @@
     <div class="pokemon-image">
       <img :src="pokemon.sprites.front_default" :alt="pokemon.name">
     </div>
-    <div class="pokemon-info">
+    <div class="pokemon-content">
       <h3 class="pokemon-name">{{ formatName(pokemon.name) }}</h3>
       <div class="pokemon-types">
         <span 
@@ -68,16 +68,11 @@ const formatId = (id: number): string => {
 .pokemon-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-color: #0075BE;
-}
-
-:root:not([data-theme="light"]) .pokemon-card:hover {
-  border-color: var(--accent-color);
 }
 
 .pokemon-header {
   text-align: right;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   user-select: none;
 }
 
@@ -90,7 +85,7 @@ const formatId = (id: number): string => {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   user-select: none;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -110,14 +105,17 @@ const formatId = (id: number): string => {
   transform: scale(1.3);
 }
 
-.pokemon-info {
+.pokemon-content {
   text-align: center;
-  margin-top: 1rem;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  justify-content: space-between;
 }
 
-.pokemon-info h3 {
-  margin: 0 0 0.5rem;
+.pokemon-name {
+  margin: 0.5rem 0;
   color: var(--text-color);
   font-size: 1.2rem;
   font-weight: bold;
@@ -128,5 +126,6 @@ const formatId = (id: number): string => {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 </style>
