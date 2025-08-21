@@ -1,0 +1,13 @@
+.sort-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .sort-container {
+    justify-content: flex-start;
+  }
+}

@@ -5,6 +5,14 @@ import {
   type Pokemon
 } from '~/schemas/pokemon';
 
+function isWeakAgainst(defenderTypes: string[], attackingType: string): boolean {
+  const totalEffectiveness = defenderTypes.reduce((effectiveness, defenderType) => {
+    return effectiveness * (typeChart[attackingType as keyof typeof typeChart][defenderType as keyof typeof typeChart]);
+  }, 1);
+
+  return totalEffectiveness >= 2;
+}
+
 // Type effectiveness chart (2 = super effective, 1 = normal, 0.5 = not very effective, 0 = immune)
 const typeChart = {
   normal: {
@@ -109,17 +117,7 @@ export const usePokemonStore = defineStore('pokemon', {
     isLoading: false,
     rangeMin: 1,
     rangeMax: 60,
-    generations: {
-      'gen-1': { name: 'Generation I', range: [1, 151] },
-      'gen-2': { name: 'Generation II', range: [152, 251] },
-      'gen-3': { name: 'Generation III', range: [252, 386] },
-      'gen-4': { name: 'Generation IV', range: [387, 493] },
-      'gen-5': { name: 'Generation V', range: [494, 649] },
-      'gen-6': { name: 'Generation VI', range: [650, 721] },
-      'gen-7': { name: 'Generation VII', range: [722, 809] },
-      'gen-8': { name: 'Generation VIII', range: [810, 905] },
-      'gen-9': { name: 'Generation IX', range: [906, 1025] }
-    }
+    sortOption: 'id-asc'
   }),
 
   getters: {
@@ -127,23 +125,17 @@ export const usePokemonStore = defineStore('pokemon', {
       const query = this.searchQuery.toLowerCase().trim();
       
       return this.pokemons.filter((pokemon: Pokemon) => {
-        // First check if it matches the search query (if there is one)
         if (query) {
-          const nameMatch = pokemon.name.toLowerCase().includes(query);
-          
-          // Search by ID (with or without # prefix)
+          const nameMatch = pokemon.name.toLowerCase().includes(query);          
           const searchId = query.startsWith('#') ? query.slice(1) : query;
           const searchNum = parseInt(searchId);
           const idMatch = !isNaN(searchNum) && pokemon.id === searchNum;
-
-          // If neither name nor ID matches the search, exclude this Pokemon
+          
           if (!nameMatch && !idMatch) {
             return false;
           }
         }
 
-        // If we get here, either there was no search query or the Pokemon matched it
-        // Check type/weakness filters
         if (this.selectedTypes.length > 0) {
           if (this.filterMode === 'type') {
             // Pokemon must have ALL selected types
@@ -154,30 +146,39 @@ export const usePokemonStore = defineStore('pokemon', {
               return false;
             }
           } else {
-            // Weakness mode: Check if the Pokemon is weak to the selected types
-            const isWeakToSelected = this.selectedTypes.every(attackingType => {
-              // Get all Pokemon's types
+            const isWeakToSelected = this.selectedTypes.every(attackingType => {              
               const pokemonTypes = pokemon.types.map(t => t.type.name);
-              return this.isWeakAgainst(pokemonTypes, attackingType);
+              return isWeakAgainst(pokemonTypes, attackingType);
             });
             if (!isWeakToSelected) {
               return false;
             }
           }
         }
-
-        // Finally, check range (unless it's a direct ID search)
+      
         if (query) {
           const searchId = query.startsWith('#') ? query.slice(1) : query;
           const searchNum = parseInt(searchId);
-          // If it's a direct ID search, ignore range
           if (!isNaN(searchNum) && pokemon.id === searchNum) {
             return true;
           }
         }
         
-        // Apply range filter
         return pokemon.id >= this.rangeMin && pokemon.id <= this.rangeMax;
+      })
+      .sort((a, b) => {
+        switch (this.sortOption) {
+          case 'id-asc':
+            return a.id - b.id;
+          case 'id-desc':
+            return b.id - a.id;
+          case 'name-asc':
+            return a.name.localeCompare(b.name);
+          case 'name-desc':
+            return b.name.localeCompare(a.name);
+          default:
+            return a.id - b.id;
+        }
       });
     },
 
@@ -187,19 +188,25 @@ export const usePokemonStore = defineStore('pokemon', {
         pokemon.types.forEach(t => types.add(t.type.name));
       });
       return Array.from(types).sort();
+    },
+    
+    allGenerations(): Record<string, { name: string; range: [number, number] }> {    
+      const generationsData: Record<string, { name: string; range: [number, number] }> = {
+        'gen-1': { name: 'Generation I', range: [1, 151] },
+        'gen-2': { name: 'Generation II', range: [152, 251] },
+        'gen-3': { name: 'Generation III', range: [252, 386] },
+        'gen-4': { name: 'Generation IV', range: [387, 493] },
+        'gen-5': { name: 'Generation V', range: [494, 649] },
+        'gen-6': { name: 'Generation VI', range: [650, 721] },
+        'gen-7': { name: 'Generation VII', range: [722, 809] },
+        'gen-8': { name: 'Generation VIII', range: [810, 905] },
+        'gen-9': { name: 'Generation IX', range: [906, 1025] }
+      };
+      return generationsData;
     }
   },
 
   actions: {
-    isWeakAgainst(defenderTypes: string[], attackingType: string): boolean {
-      // Calculate the total effectiveness by multiplying the effectiveness against each defending type
-      const totalEffectiveness = defenderTypes.reduce((effectiveness, defenderType) => {
-        return effectiveness * (typeChart[attackingType as keyof typeof typeChart][defenderType as keyof typeof typeChart]);
-      }, 1);
-
-      // If the total effectiveness is 2 or greater, the Pokemon is weak to this type
-      return totalEffectiveness >= 2;
-    },
 
     async fetchPokemons() {
       const config = useRuntimeConfig();
@@ -209,17 +216,14 @@ export const usePokemonStore = defineStore('pokemon', {
         // Artificial delay to show loading animation (2 seconds)
         await new Promise(resolve => setTimeout(resolve, 2000));
         
-        // Fetch all Pokemon up to the latest generation
-        const response = await $fetch(`${config.public.apiBase}/pokemon?limit=1025`);
-        
-        // Validate the list response
-        const validatedList = PokemonListResponseSchema.parse(response);
-        
-        // Fetch detailed info for each Pokemon
+        const response = await $fetch(`${config.public.apiBase}/pokemon?limit=1025`);  
+
+        const validatedList = PokemonListResponseSchema.parse(response);       
+     
         const pokemonDetails = await Promise.all(
           validatedList.results.map(async (pokemon) => {
             const details = await $fetch(pokemon.url);
-            // Validate each Pokemon's data
+           
             return PokemonSchema.parse(details);
           })
         );
@@ -237,44 +241,41 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     setRange(min: number | null, max: number | null) {
-      if (min === null && max === null) {
-        // Both empty, keep current values
+      if (min === null && max === null) {      
         return;
       }
-      
-      // Handle one value being empty
+           
       const validMin = min === null ? this.rangeMin : min;
       const validMax = max === null ? this.rangeMax : max;
-      
-      // Clamp the values to valid range
+           
       const clampedMin = Math.max(1, Math.min(validMin, 1025));
-      const clampedMax = Math.max(1, Math.min(validMax, 1025));
-      
-      // Then ensure min is less than max
+      const clampedMax = Math.max(1, Math.min(validMax, 1025));      
+     
       this.rangeMin = Math.min(clampedMin, clampedMax);
       this.rangeMax = Math.max(clampedMin, clampedMax);
     },
 
     toggleType(type: string) {
       const index = this.selectedTypes.indexOf(type);
-      if (index === -1) {
-        // Add type if not already selected and less than 2 types are selected
+      if (index === -1) {      
         if (this.selectedTypes.length < 2) {
           this.selectedTypes.push(type);
         }
-      } else {
-        // Remove type if already selected
+      } else {       
         this.selectedTypes.splice(index, 1);
       }
     },
 
-    setGeneration(generation: keyof typeof this.generations | '') {
+    setGeneration(generation: string | '') {
       this.selectedGeneration = generation;
-      if (generation && this.generations[generation]) {
-        const range = this.generations[generation].range;
-        if (range?.[0] !== undefined && range?.[1] !== undefined) {
-          this.rangeMin = Number(range[0]);
-          this.rangeMax = Number(range[1]);
+      
+      if (generation) {
+        const generations = this.allGenerations;
+        
+        if (generations[generation]) {
+          const range = generations[generation].range;
+          this.rangeMin = range[0];
+          this.rangeMax = range[1];
         }
       }
     }

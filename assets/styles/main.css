@@ -1,3 +1,8 @@
+@import './components/filters.css';
+@import './components/sort.css';
+@import './components/sort-container.css';
+@import './pages/index.css';
+
 :root {
   --background-color: #F5F5F5;
   --card-color: #FFFFFF;
@@ -15,7 +20,6 @@ body {
   font-weight: 400;
 }
 
-/* Make all content unselectable by default */
 * {
   cursor: default !important;
   user-select: none !important;
@@ -24,13 +28,11 @@ body {
   -ms-user-select: none !important;
 }
 
-/* Allow pointer cursor for clickable elements */
 button, 
 a {
   cursor: pointer !important;
 }
 
-/* Only show text cursor and allow text selection for the search input */
 .search-input {
   cursor: text !important;
   user-select: text !important;
@@ -39,7 +41,6 @@ a {
   -ms-user-select: text !important;
 }
 
-/* Prevent text cursor on other inputs */
 input:not(.search-input),
 select,
 textarea {
@@ -49,17 +50,15 @@ textarea {
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem 1rem;
+  padding: 0 0 1rem;
 }
 
-/* Global input styles */
 input[type="text"],
 input[type="number"],
 select {
   cursor: text;
 }
 
-/* Search input styles */
 .search-container {
   margin: 2rem auto;
   text-align: center;
@@ -152,16 +151,13 @@ select {
   border-color: #e3350d;
 }
 
-/* Pokemon grid */
 .pokemon-grid {
   display: grid;
   gap: 1rem;
-  padding: 1rem;
-  /* Default - mobile first */
+  padding: 0;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 }
 
-/* Responsive grid adjustments */
 @media (min-width: 640px) {
   .pokemon-grid {
     gap: 1.5rem;
@@ -182,7 +178,6 @@ select {
   }
 }
 
-/* Loading state */
 .loading {
   text-align: center;
   padding: 2rem;

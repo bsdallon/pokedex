@@ -1,7 +1,6 @@
-/* Search and Filter Styles */
 .search-container {
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -72,186 +71,48 @@
   background-color: #e0e0e0;
 }
 
-/* Advanced Filters */
-.advanced-filters {
-  width: 100%;
-  margin: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.advanced-filters-content,
-.advanced-filters-content[data-v-02281a80] {
-  max-height: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  transform: translateY(-20px);
-  padding: 0;
-  border: none !important;
-}
-
-.advanced-filters.show {
-  margin: 0;
-  background-color: var(--card-color);
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.advanced-filters.show .advanced-filters-content {
-  max-height: 800px;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  padding: 1rem 1rem 3rem 1rem;
-  position: relative;
-}
-
-/* Adjust inner spacing */
-.top-filters {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-}
-
-/* Filter Components */
-.type-filter-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .top-filters {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
+  gap: 2.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
-}
-
-.filter-half {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: calc(50% - 1rem);
-}
-
-.filter-half label {
-  color: #444;
-  font-size: 2.2rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.range-inputs {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .range-input {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
+  width: 70px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   background-color: #fff;
   color: #333;
-  max-width: 80px;
-  transition: all 0.2s ease;
-}
-
-.range-input:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
 }
 
 .generation-select {
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   background-color: #fff;
   color: #333;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M6 8.825L1.175 4 2.238 2.937 6 6.7l3.762-3.763L10.825 4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 1rem center;
-  transition: all 0.2s ease;
-  cursor: pointer;
+  background-position: right 0.75rem center;
+  margin-top: 5px;
 }
 
-.generation-select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.1);
-}
-
-.type-filter-container {
-  width: 100%;
-}
-
-/* Responsive adjustments */
 @media (max-width: 600px) {
   .top-filters {
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .filter-half {
-    width: 100%;
-  }
-
-  .type-buttons {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
-
-  .advanced-filters-content {
-    padding: 1rem;
-  }
-
   .generation-select {
     width: 100%;
     min-width: 0;
   }
-}
-
-/* Reset Button */
-.reset-filters-button {
-  padding: 0.75rem;
-  background-color: #f5f5f5;
-  color: #666;
-  border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 12px 12px; /* Restored to 12px since we removed the border */
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  margin: 0;
-  box-sizing: border-box;
-  outline: none;
-}
-
-.reset-filters-button:hover {
-  background-color: #e8e8e8;
-}
-
-.reset-filters-button:active {
-  background-color: #e0e0e0;
 }
