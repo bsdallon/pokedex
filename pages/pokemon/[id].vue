@@ -1,5 +1,5 @@
 <template>
-  <div class="pokemon-detail-container">
+  <div class="pokemon-detail-container" :style="{ '--type-color': typeColor }">
     <div v-if="isLoading">
       <LoadingPokeballs />
     </div>
@@ -24,6 +24,15 @@
       
       <div class="pokemon-detail-content">
         <div class="pokemon-image-container">        
+          <!-- Type SVG background -->
+          <img
+            v-if="typeSvgPath"
+            class="pokemon-type-bg"
+            :src="typeSvgPath"
+            :alt="getPrimaryType + ' type background'"
+            draggable="false"
+            aria-hidden="true"
+          />
           <div class="pokemon-main-image">
             <img 
               :src="pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default" 
@@ -146,6 +155,57 @@
 </template>
 
 <script setup lang="ts">
+// Map type to SVG and color
+const typeToSvg = {
+  bug: '/assets/images/type_bug.svg',
+  dark: '/assets/images/type_dark.svg',
+  dragon: '/assets/images/type_dragon.svg',
+  electric: '/assets/images/type_electric.svg',
+  fairy: '/assets/images/type_fairy.svg',
+  fighting: '/assets/images/type_fighting.svg',
+  fire: '/assets/images/type_fire.svg',
+  flying: '/assets/images/type_flying.svg',
+  ghost: '/assets/images/type_ghost.svg',
+  grass: '/assets/images/type_grass.svg',
+  ground: '/assets/images/type_ground.svg',
+  ice: '/assets/images/type_ice.svg',
+  normal: '/assets/images/type_normal.svg',
+  poison: '/assets/images/type_poison.svg',
+  psychic: '/assets/images/type_psychic.svg',
+  rock: '/assets/images/type_rock.svg',
+  steel: '/assets/images/type_steel.svg',
+  water: '/assets/images/type_water.svg',
+};
+const typeToColor = {
+  bug: '#a8b820',
+  dark: '#705848',
+  dragon: '#7038f8',
+  electric: '#ffe066',
+  fairy: '#ee99ac',
+  fighting: '#c03028',
+  fire: '#f08030',
+  flying: '#a890f0',
+  ghost: '#705898',
+  grass: '#78c850',
+  ground: '#e0c068',
+  ice: '#98d8d8',
+  normal: '#a8a878',
+  poison: '#a040a0',
+  psychic: '#f85888',
+  rock: '#b8a038',
+  steel: '#b8b8d0',
+  water: '#6890f0',
+};
+
+const typeSvgPath = computed(() => {
+  const type = getPrimaryType.value as keyof typeof typeToSvg;
+  return typeToSvg[type] || '';
+});
+
+const typeColor = computed(() => {
+  const type = getPrimaryType.value as keyof typeof typeToColor;
+  return typeToColor[type] || '#ffe066';
+});
 import { useRouter, useRoute } from 'vue-router';
 import type { Pokemon, PokemonSpecies, EvolutionChain, EvolutionNode, PokemonWithEvolution } from '~/types/pokemon';
 import ErrorBoundary from '~/components/ErrorBoundary.vue';

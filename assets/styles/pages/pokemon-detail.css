@@ -5,6 +5,23 @@
   min-height: 95vh;
   display: flex;
   flex-direction: column;
+  /* Bring the yellow down a bit */
+    /* Use a sharp gradient with a solid barrier between white and the type color */
+    background: linear-gradient(135deg, #fff 54%, color-mix(in srgb, var(--type-color) 70%, white 30%) 54%, color-mix(in srgb, var(--type-color) 70%, white 30%) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.pokemon-type-bg {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 420px;
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 32px rgba(0,0,0,0.18));
 }
 
 .pokemon-detail-header {
@@ -51,8 +68,22 @@
   height: 500px;
   width: 100%;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: visible;
   flex-direction: column;
+  z-index: 2;
+}
+
+.pokemon-type-bg {
+  position: absolute;
+  left: 60%;
+  top: 8%;
+  transform: translate(-50%, -50%) scale(1.1);
+  width: 280px;
+  height: 280px;
+  opacity: 0.7;
+  z-index: 1;
+  pointer-events: none;
+  filter: none;
 }
 
 .pokemon-main-image {
@@ -76,6 +107,8 @@
   transform: scale(1.2);
   filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
   padding: 10px;
+  position: relative;
+  z-index: 3;
 }
 
 .pokemon-info-container {
