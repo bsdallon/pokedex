@@ -4,22 +4,23 @@
       <LoadingPokeballs />
     </div>
     
-    <div v-else-if="pokemon">
-      <div class="pokemon-detail-header">
-        <div class="pokemon-navigation">
-          <button class="nav-button" @click="navigateToPokemon(pokemon.id - 1)" :disabled="pokemon.id === 1">
-            &lt; #{{ String(pokemon.id - 1).padStart(4, '0') }}
-          </button>
+    <ErrorBoundary>
+      <div v-if="pokemon">
+        <div class="pokemon-detail-header">
+          <div class="pokemon-navigation">
+            <button class="nav-button" @click="navigateToPokemon(pokemon.id - 1)" :disabled="pokemon.id === 1">
+              &lt; #{{ String(pokemon.id - 1).padStart(4, '0') }}
+            </button>
+          </div>
+          
+          <h1>{{ formatName(pokemon.name) }} <span class="pokemon-id">#{{ String(pokemon.id).padStart(4, '0') }}</span></h1>
+          
+          <div class="pokemon-navigation">
+            <button class="nav-button" @click="navigateToPokemon(pokemon.id + 1)">
+              #{{ String(pokemon.id + 1).padStart(4, '0') }} &gt;
+            </button>
+          </div>
         </div>
-        
-        <h1>{{ formatName(pokemon.name) }} <span class="pokemon-id">#{{ String(pokemon.id).padStart(4, '0') }}</span></h1>
-        
-        <div class="pokemon-navigation">
-          <button class="nav-button" @click="navigateToPokemon(pokemon.id + 1)">
-            #{{ String(pokemon.id + 1).padStart(4, '0') }} &gt;
-          </button>
-        </div>
-      </div>
       
       <div class="pokemon-detail-content">
         <div class="pokemon-image-container">        
@@ -118,9 +119,28 @@
         </div>
       </div>
     </div>
+      <template #fallback="{ error, retry }">
+        <div class="error-message">
+          <img 
+            src="~/assets/images/pokemon_not_found.png" 
+            alt="Pokemon not found" 
+            class="error-message__image"
+          />
+          <h3>Oh no! We could not find that Pokémon!</h3>
+          <p>{{ error?.message }}</p>
+          <button @click="router.push('/')" class="error-message__button">Go Back</button>
+        </div>
+      </template>
+    </ErrorBoundary>
     
-    <div v-else class="error-message">
-      <p>Sorry, we couldn't find that Pokémon.</p>
+    <div v-if="!isLoading && !pokemon" class="error-message">
+      <img 
+  src="~/assets/images/pokemon_not_found.png" 
+        alt="Pokemon not found" 
+        class="error-message__image"
+      />
+      <h3>Oh no! We could not find that Pokémon!</h3>
+  <button @click="router.push('/')" class="error-message__button">Go Back</button>
     </div>
   </div>
 </template>
@@ -128,6 +148,7 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
 import type { Pokemon, PokemonSpecies, EvolutionChain, EvolutionNode, PokemonWithEvolution } from '~/types/pokemon';
+import ErrorBoundary from '~/components/ErrorBoundary.vue';
 
 const emit = defineEmits(['loading-start', 'loading-end']);
 const route = useRoute();

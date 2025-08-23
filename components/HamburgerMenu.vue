@@ -1,6 +1,6 @@
 <template>
   <div class="menu-container">
-    <button class="hamburger-button" @click="toggleMenu" :class="{ 'is-active': isOpen }">
+    <button class="hamburger-button" @click.stop="toggleMenu" :class="{ 'is-active': isOpen }">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
@@ -119,7 +119,7 @@ const getThemePreviewStyle = (theme: any) => {
   height: 48px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: pointer !important;
   padding: 0;
 }
 
@@ -140,6 +140,7 @@ const getThemePreviewStyle = (theme: any) => {
   transition: all 0.3s ease;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer !important;
 }
 
 .hamburger-inner::before,
@@ -151,6 +152,7 @@ const getThemePreviewStyle = (theme: any) => {
   background-color: var(--accent-color);
   transition: all 0.3s ease;
   left: 0;
+  cursor: pointer !important;
 }
 
 .hamburger-inner::before {
@@ -282,5 +284,18 @@ const getThemePreviewStyle = (theme: any) => {
   height: 32px;
   border-radius: 6px;
   border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.menu-container,
+.menu-content {
+  cursor: default !important;
+}
+
+.hamburger-button,
+.hamburger-box,
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  cursor: pointer !important;
 }
 </style>

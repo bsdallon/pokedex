@@ -4,6 +4,7 @@ import {
   PokemonListResponseSchema,
   type Pokemon
 } from '~/schemas/pokemon';
+import { useErrorStore } from '~/stores/error';
 
 function isWeakAgainst(defenderTypes: string[], attackingType: string): boolean {
   const totalEffectiveness = defenderTypes.reduce((effectiveness, defenderType) => {
@@ -150,7 +151,6 @@ export const usePokemonStore = defineStore('pokemon', {
 
         if (this.selectedTypes.length > 0) {
           if (this.filterMode === 'type') {
-            // Pokemon must have ALL selected types
             const hasAllTypes = this.selectedTypes.every(type => 
               pokemon.types.some(t => t.type.name === type)
             );
@@ -227,17 +227,12 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     async fetchPokemons() {
-      const now = Date.now();
-      const cachedData = this.loadCachedData();
-      
-      if (cachedData && 
-          this.pokemons.length > 0 && 
-          (now - this.lastFetchTime) < this.cacheExpiration) {
-        console.log('Using cached Pokemon data');
+      if (this.loadCachedData()) {
         return;
       }
-      
+
       const config = useRuntimeConfig();
+      const errorStore = useErrorStore();
       this.setLoadingState('fetchingList', true);
       this.error = null;
       
@@ -255,11 +250,17 @@ export const usePokemonStore = defineStore('pokemon', {
         );
         
         this.pokemons = pokemonDetails;
-        this.lastFetchTime = now;
+        this.lastFetchTime = Date.now();
         this.cacheData();
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching Pokemon:', error);
         this.error = 'Failed to fetch Pokemon data. Please try again.';
+        
+        errorStore.addError(
+          error instanceof Error ? error : 'Failed to fetch Pokemon data', 
+          error?.message || 'Please check your connection and try again',
+          'api'
+        );
       } finally {
         this.setLoadingState('fetchingList', false);
       }

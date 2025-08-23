@@ -39,7 +39,8 @@
             class="generation-select"
             @change="handleGenerationChange"
           >
-            <option value="">All Generations</option>
+            <option value="" disabled selected hidden>Select generation</option>
+            <option value="all">All Generations</option>
             <option 
               v-for="(gen, key) in generations" 
               :key="key"
@@ -162,6 +163,8 @@ const handleTypeToggle = (type: string) => {
 
 const resetFilters = () => {
   localFilterMode.value = 'type';
+  localSelectedGeneration.value = '';
+  emit('update:selectedGeneration', '');
   emit('update:filterMode', 'type');  
   emit('resetFilters');
 };

@@ -2,7 +2,7 @@
   <header class="app-header">
     <div class="header-content">
       <div class="header-left">
-        <h1 class="pokemon-title" @click="navigateToHome" style="cursor: pointer;">PokéDex</h1>
+        <h1 class="pokemon-title" @click.stop="navigateToHome" style="cursor: pointer;">PokéDex</h1>
       </div>
       <div class="header-right">
         <HamburgerMenu />
@@ -69,6 +69,14 @@ const navigateToHome = () => {
   font-size: 2rem;
   letter-spacing: 1.5px;
   -webkit-font-smoothing: antialiased;
+  cursor: pointer !important;
+  transition: filter 0.2s;
+  pointer-events: auto;
+  display: inline-block;
+  width: auto;
+}
+.pokemon-title:hover {
+  filter: brightness(1.1) drop-shadow(0 0 6px #FFCB05);
 }
 
 .header-right {

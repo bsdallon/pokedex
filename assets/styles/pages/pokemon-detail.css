@@ -191,6 +191,11 @@
 .evolution-item img {
   width: 100px;
   height: 100px;
+  cursor: pointer !important;
+  transition: filter 0.2s;
+}
+.evolution-item img:hover {
+  filter: brightness(1.1) drop-shadow(0 0 8px #FFCB05);
 }
 
 .evolution-name {
