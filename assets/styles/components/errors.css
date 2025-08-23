@@ -1,4 +1,3 @@
-/* Error notification styles */
 .error-notification {
   position: fixed;
   top: calc(var(--header-height) + 1rem);
