@@ -19,10 +19,12 @@ export const mockPokemonList = [
       },
     ],
     sprites: {
-      front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
       other: {
         'official-artwork': {
-          front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
         },
       },
     },
@@ -81,10 +83,12 @@ export const mockPokemonList = [
       },
     ],
     sprites: {
-      front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
       other: {
         'official-artwork': {
-          front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png',
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png',
         },
       },
     },
@@ -116,4 +120,4 @@ export const mockPokemonList = [
       },
     ],
   },
-];
+]

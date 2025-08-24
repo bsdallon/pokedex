@@ -4,7 +4,7 @@
  * @returns {string} The formatted name
  */
 export function formatName(name) {
-  return name.charAt(0).toUpperCase() + name.slice(1);
+  return name.charAt(0).toUpperCase() + name.slice(1)
 }
 
 /**
@@ -13,7 +13,7 @@ export function formatName(name) {
  * @returns {string} The formatted ID with leading zeros
  */
 export function formatPokemonId(id) {
-  return String(id).padStart(4, '0');
+  return String(id).padStart(4, '0')
 }
 
 /**
@@ -22,9 +22,7 @@ export function formatPokemonId(id) {
  * @returns {string} Comma-separated list of ability names
  */
 export function formatAbilities(abilities) {
-  return abilities
-    .map(a => formatName(a.ability.name))
-    .join(', ');
+  return abilities.map((a) => formatName(a.ability.name)).join(', ')
 }
 
 /**
@@ -33,10 +31,10 @@ export function formatAbilities(abilities) {
  * @returns {string} Formatted height string
  */
 export function formatHeight(height) {
-  const heightInMeters = height / 10;
-  const feet = Math.floor(heightInMeters * 3.28084);
-  const inches = Math.round((heightInMeters * 3.28084 - feet) * 12);
-  return `${heightInMeters.toFixed(1)}m (${feet}'${inches}")`;
+  const heightInMeters = height / 10
+  const feet = Math.floor(heightInMeters * 3.28084)
+  const inches = Math.round((heightInMeters * 3.28084 - feet) * 12)
+  return `${heightInMeters.toFixed(1)}m (${feet}'${inches}")`
 }
 
 /**
@@ -45,9 +43,9 @@ export function formatHeight(height) {
  * @returns {string} Formatted weight string
  */
 export function formatWeight(weight) {
-  const weightInKg = weight / 10;
-  const weightInLbs = weightInKg * 2.20462;
-  return `${weightInKg.toFixed(1)}kg (${weightInLbs.toFixed(1)}lbs)`;
+  const weightInKg = weight / 10
+  const weightInLbs = weightInKg * 2.20462
+  return `${weightInKg.toFixed(1)}kg (${weightInLbs.toFixed(1)}lbs)`
 }
 
 /**
@@ -57,13 +55,13 @@ export function formatWeight(weight) {
  */
 export function formatStatName(statName) {
   const statNameMap = {
-    'hp': 'HP',
-    'attack': 'Attack',
-    'defense': 'Defense',
+    hp: 'HP',
+    attack: 'Attack',
+    defense: 'Defense',
     'special-attack': 'Sp. Atk',
     'special-defense': 'Sp. Def',
-    'speed': 'Speed'
-  };
-  
-  return statNameMap[statName] || formatName(statName);
+    speed: 'Speed',
+  }
+
+  return statNameMap[statName] || formatName(statName)
 }

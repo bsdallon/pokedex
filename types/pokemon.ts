@@ -1,101 +1,101 @@
 export interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
+  id: number
+  name: string
+  height: number
+  weight: number
   abilities: {
     ability: {
-      name: string;
-    };
-    is_hidden: boolean;
-  }[];
+      name: string
+    }
+    is_hidden: boolean
+  }[]
   sprites: {
-    front_default: string;
+    front_default: string
     other: {
       'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
+        front_default: string
+      }
+    }
+  }
   types: {
-    slot: number;
+    slot: number
     type: {
-      name: string;
-      url: string;
-    };
-  }[];
+      name: string
+      url: string
+    }
+  }[]
   stats: {
-    base_stat: number;
-    effort: number;
+    base_stat: number
+    effort: number
     stat: {
-      name: string;
-      url: string;
-    };
-  }[];
+      name: string
+      url: string
+    }
+  }[]
 }
 export interface PokemonSpecies {
-  id: number;
-  name: string;
+  id: number
+  name: string
   flavor_text_entries: {
-    flavor_text: string;
+    flavor_text: string
     language: {
-      name: string;
-    };
+      name: string
+    }
     version: {
-      name: string;
-    };
-  }[];
+      name: string
+    }
+  }[]
   genera: {
-    genus: string;
+    genus: string
     language: {
-      name: string;
-    };
-  }[];
+      name: string
+    }
+  }[]
   evolution_chain: {
-    url: string;
-  };
+    url: string
+  }
 }
 export interface EvolutionChain {
-  id: number;
-  chain: EvolutionNode;
+  id: number
+  chain: EvolutionNode
 }
 
 export interface EvolutionNode {
   species: {
-    name: string;
-    url: string;
-  };
-  evolves_to: EvolutionNode[];
+    name: string
+    url: string
+  }
+  evolves_to: EvolutionNode[]
 }
 export interface PokemonWithEvolution extends Pokemon {
-  species?: PokemonSpecies;
+  species?: PokemonSpecies
   evolutionChain?: {
     previous?: {
-      id: number;
-      name: string;
-      image: string;
-    };
+      id: number
+      name: string
+      image: string
+    }
     current: {
-      id: number;
-      name: string;
-      image: string;
-    };
+      id: number
+      name: string
+      image: string
+    }
     next?: {
-      id: number;
-      name: string;
-      image: string;
-    };
-  };
-  category?: string;
-  description?: string;
-  weakness?: string[];
+      id: number
+      name: string
+      image: string
+    }
+  }
+  category?: string
+  description?: string
+  weakness?: string[]
 }
 export interface PokemonListResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
+  count: number
+  next: string | null
+  previous: string | null
   results: {
-    name: string;
-    url: string;
-  }[];
+    name: string
+    url: string
+  }[]
 }

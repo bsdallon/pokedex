@@ -58,9 +58,9 @@ Use the defined CSS custom properties from `variables.css` whenever possible:
 
 ```css
 :root {
-  --background-color: #F5F5F5;
-  --card-color: #FFFFFF;
-  --accent-color: #FFCB05;
+  --background-color: #f5f5f5;
+  --card-color: #ffffff;
+  --accent-color: #ffcb05;
   --text-color: #333333;
 }
 ```

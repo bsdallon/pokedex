@@ -1,8 +1,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
+  const themesStore = useThemesStore()
 
-  const themesStore = useThemesStore();
-    
   nuxtApp.hook('app:mounted', () => {
-    themesStore.setTheme(themesStore.currentTheme);
-  });
+    themesStore.setTheme(themesStore.currentTheme)
+  })
 })

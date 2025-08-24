@@ -15,18 +15,18 @@
 </template>
 
 <style>
-@import './assets/styles/variables.css';
-#main-app {
-  width: 100%;
-  background: var(--background-color, #f7f7f7);
-}
-</style>
+  @import './assets/styles/variables.css';
+  #main-app {
+    width: 100%;
+    background: var(--background-color, #f7f7f7);
+  }
+  </style>
 
-<script setup lang="ts">
-import MainLayout from '~/components/MainLayout.vue';
-import LoadingPokeballs from '~/components/LoadingPokeballs.vue';
-import ErrorNotification from '~/components/ErrorNotification.vue';
-import { usePokemonStore } from '~/stores/pokemon';
+  <script setup lang="ts">
+  import MainLayout from '~/components/MainLayout.vue';
+  import LoadingPokeballs from '~/components/LoadingPokeballs.vue';
+  import ErrorNotification from '~/components/ErrorNotification.vue';
+  import { usePokemonStore } from '~/stores/pokemon';
 
-const store = usePokemonStore();
+  const store = usePokemonStore();
 </script>

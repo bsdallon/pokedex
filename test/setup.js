@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, vi } from 'vitest';
-import { config } from '@vue/test-utils';
+import { afterEach, beforeEach, vi } from 'vitest'
+import { config } from '@vue/test-utils'
 
 vi.mock('#app', () => ({
   useNuxtApp: () => ({
@@ -12,17 +12,17 @@ vi.mock('#app', () => ({
   }),
   navigateTo: vi.fn(),
   defineNuxtPlugin: vi.fn(),
-}));
+}))
 
 config.global.stubs = {
   NuxtLink: {
     template: '<a :href="to"><slot /></a>',
     props: ['to'],
   },
-  'Head': true,
-  'NuxtPage': true,
-};
+  Head: true,
+  NuxtPage: true,
+}
 
 beforeEach(() => {
-  vi.clearAllMocks();
-});
+  vi.clearAllMocks()
+})

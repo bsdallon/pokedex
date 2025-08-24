@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '~/assets/styles/main.css',
     '~/assets/styles/types.css',
     '~/assets/styles/search.css',
-    '~/assets/styles/components.css'
+    '~/assets/styles/components.css',
+    '~/assets/styles/variables.css',
   ],
   runtimeConfig: {
     public: {

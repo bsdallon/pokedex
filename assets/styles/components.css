@@ -55,7 +55,7 @@
 }
 
 .type-selected {
-  transform: scale(1.08);  /* Increased from 1.03 to 1.08 for more growth */
+  transform: scale(1.08); /* Increased from 1.03 to 1.08 for more growth */
   filter: brightness(1.05) contrast(1.05);
 }
 
@@ -80,14 +80,14 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #333333;
   transition: all 0.2s ease;
 }
 
 .input-field:focus {
   outline: none;
-  border-color: var(--accent-color);  
+  border-color: var(--accent-color);
 }
 
 .select-field {
@@ -118,7 +118,7 @@
   border-radius: 8px;
   width: fit-content;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .toggle-option {

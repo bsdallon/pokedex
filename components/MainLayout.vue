@@ -7,24 +7,22 @@
   </div>
 </template>
 <script setup lang="ts">
-
-import Header from '~/components/Header.vue';
+  import Header from '~/components/Header.vue'
 </script>
 
 <style scoped>
+  .main-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
-.main-layout {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.content-container {
-  flex: 1;
-  position: relative;
-  padding-top: var(--header-height, 60px);
-  min-height: calc(100vh - var(--header-height, 60px));
-  width: 100%;
-  box-sizing: border-box;
-}
+  .content-container {
+    flex: 1;
+    position: relative;
+    padding-top: var(--header-height, 60px);
+    min-height: calc(100vh - var(--header-height, 60px));
+    width: 100%;
+    box-sizing: border-box;
+  }
 </style>
