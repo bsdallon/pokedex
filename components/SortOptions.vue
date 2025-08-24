@@ -20,7 +20,7 @@
       >
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="14" cy="14" r="13" fill="#F5F5F5"/>
-          <!-- Up chevron (centered) -->
+          <!-- Up chevron -->
           <polyline 
             points="8,11 14,7 20,11" 
             :stroke="sortDirection === 'asc' ? '#FFCB05' : '#D3D3D3'"
@@ -29,7 +29,7 @@
             stroke-linejoin="round"
             fill="none"
           />
-          <!-- Down chevron (centered) -->
+          <!-- Down chevron -->
           <polyline 
             points="8,17 14,21 20,17" 
             :stroke="sortDirection === 'desc' ? '#FFCB05' : '#D3D3D3'"
@@ -75,3 +75,105 @@ const toggleDirection = () => {
   emitSort();
 };
 </script>
+
+<style scoped>
+.sort-direction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+  padding: 0;
+}
+.sort-direction-btn.asc svg path {
+  fill: #1976d2 !important;
+}
+.sort-direction-btn.desc svg path {
+  fill: #1976d2 !important;
+}
+.sort-direction-btn svg {
+  display: block;
+}
+.sort-direction-btn:focus {
+  border-color: var(--accent-color);
+  background: #e3f0fc;
+}
+.sort-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0;
+}
+
+.sort-options label {
+  color: #444;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sort-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+}
+
+.sort-select-attached {
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  background: #fff;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.sort-select {
+  width: 140px;
+  min-width: 110px;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0;
+  font-size: 0.95rem;
+  background-color: transparent;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M6 8.825L1.175 4 2.238 2.937 6 6.7l3.762-3.763L10.825 4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.sort-direction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: none;
+  border-left: 1px solid #ccc;
+  border-radius: 0;
+  width: 44px;
+  min-width: 44px;
+  height: 40px;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  outline: none;
+  padding: 0;
+}
+.sort-direction-btn:focus, .sort-direction-btn:hover {
+  background: #e0e0e0;
+}
+.sort-direction-btn.asc .material-icons,
+.sort-direction-btn.desc .material-icons {
+  color: #1976d2;
+}
+</style>

@@ -1,7 +1,6 @@
 <template>
   <main class="about-page">
-    <MainLayout>
-      <div class="about-container">
+    <div class="about-container">
         <section class="about-section about-section--personal">
           <h1 class="about-section__title">About Me</h1>
           
@@ -88,8 +87,7 @@
             <p class="feedback-note">I really enjoyed working on this project and learning more about Vue.js and Nuxt 3. If you have any feedback or suggestions, feel free to reach out!</p>
           </div>
         </section>
-      </div>
-    </MainLayout>
+  </div>
   </main>
 </template>
 

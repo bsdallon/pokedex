@@ -1,10 +1,4 @@
-@import './components/filters.css';
-@import './components/sort.css';
-@import './components/sort-container.css';
-@import './components/errors.css';
-@import './pages/index.css';
-@import './pages/pokemon-detail.css';
-@import './pages/about.css';
+
 
 :root {
   --background-color: #F5F5F5;
@@ -113,9 +107,13 @@ select {
 }
 
 .search-container {
-  margin: 2rem auto;
+  margin: 1rem auto 0.5rem auto;
   text-align: center;
   max-width: 800px;
+}
+
+.sort-container {
+  margin-bottom: 1.5rem;
 }
 
 .search-controls {

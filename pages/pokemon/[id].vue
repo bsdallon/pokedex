@@ -1,3 +1,4 @@
+<!--/pokemon/[id]-->
 <template>
   <div class="pokemon-detail-container" :style="{ '--type-color': typeColor }">
     <div v-if="isLoading">
@@ -155,7 +156,6 @@
 </template>
 
 <script setup lang="ts">
-// Map type to SVG and color
 const typeToSvg = {
   bug: '/assets/images/type_bug.svg',
   dark: '/assets/images/type_dark.svg',
@@ -176,6 +176,7 @@ const typeToSvg = {
   steel: '/assets/images/type_steel.svg',
   water: '/assets/images/type_water.svg',
 };
+
 const typeToColor = {
   bug: '#a8b820',
   dark: '#705848',
@@ -270,10 +271,6 @@ const navigateToPokemon = (id: number) => {
   if (id > 0) {
     router.push(`/pokemon/${id}`);
   }
-};
-
-const navigateToEvolution = (id: number) => {
-  navigateToPokemon(id);
 };
 
 const getWeaknesses = (types: Pokemon['types']) => {
