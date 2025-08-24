@@ -1,5 +1,5 @@
 <template>
-  <header class="app-header">
+  <header class="app-header" v-cloak>
     <div class="header-content">
       <div class="header-left" style="display: flex; align-items: center; gap: 0.7em">
         <h1 class="pokemon-title" @click.stop="navigateToHome" style="cursor: pointer">PokéDex</h1>

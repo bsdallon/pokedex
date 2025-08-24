@@ -33,6 +33,13 @@
   import LoadingPokeballs from '~/components/LoadingPokeballs.vue'
   import ErrorNotification from '~/components/ErrorNotification.vue'
   import { usePokemonStore } from '~/stores/pokemon'
+  import { onMounted } from 'vue'
 
   const store = usePokemonStore()
+
+  onMounted(() => {
+    if (!store.pokemons.length) {
+      store.fetchPokemons()
+    }
+  })
 </script>

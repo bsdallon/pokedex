@@ -1,6 +1,9 @@
 <!--/pokemon/[id]-->
 <template>
-  <div class="pokemon-detail-container" :style="{ '--type-color': typeColor }">
+  <div
+    :class="['pokemon-detail-container', { 'no-bg': !isLoading && !pokemon }]"
+    :style="{ '--type-color': typeColor }"
+  >
     <div v-if="isLoading">
       <LoadingPokeballs />
     </div>
@@ -199,14 +202,22 @@
       </template>
     </ErrorBoundary>
 
-    <div v-if="!isLoading && !pokemon" class="error-message">
+    <div v-if="!isLoading && !pokemon" class="error-message error-message--centered">
       <img
         src="~/assets/images/pokemon_not_found.png"
         alt="Pokemon not found"
-        class="error-message__image"
+        class="error-message__image error-message__image--small"
       />
       <h3>Oh no! We could not find that Pokémon!</h3>
-      <button @click="router.push('/')" class="error-message__button">Go Back</button>
+      <div class="error-message__button-group">
+        <button @click="router.push('/')" class="error-message__button">Go Back</button>
+        <button
+          @click="router.go(0)"
+          class="error-message__button error-message__button--secondary"
+        >
+          Try Again
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -493,6 +504,59 @@
 </script>
 
 <style scoped>
+  .error-message--centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    text-align: center;
+    margin-top: 0;
+  }
+  .error-message__image--small {
+    max-width: 220px;
+    width: 100%;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+  }
+  .error-message__button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .error-message__button {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.45em 0;
+    font-size: 1.08rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    outline: none;
+    width: 170px;
+    height: 38px;
+    text-align: center;
+    display: inline-block;
+  }
+  .error-message__button:hover {
+    background: #0d47a1;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+  }
+  .error-message__button--secondary {
+    background: #e53935;
+    color: #fff;
+    border: 2px solid #b71c1c;
+  }
+  .error-message__button--secondary:hover {
+    background: #b71c1c;
+    color: #fff;
+    border-color: #b71c1c;
+  }
   .pokemon-detail-header {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -553,6 +617,14 @@
     display: block;
     border-radius: 50%;
     margin: auto;
+    .error-message--centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+    }
     box-shadow: none;
   }
   .pokemon-detail-container {
@@ -570,6 +642,9 @@
     );
     position: relative;
     overflow: hidden;
+  }
+  .pokemon-detail-container.no-bg {
+    background: #fff !important;
   }
 
   .pokemon-type-bg {
