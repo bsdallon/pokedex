@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { PokemonSchema, PokemonListResponseSchema, type Pokemon } from '~/schemas/pokemon'
+import { PokemonSchema, PokemonListResponseSchema } from '~/schemas/pokemon'
+import type { Pokemon } from '~/schemas/pokemon'
 import { useErrorStore } from '~/stores/error'
 
 function isWeakAgainst(defenderTypes: string[], attackingType: string): boolean {
@@ -396,6 +397,8 @@ export const usePokemonStore = defineStore('pokemon', {
     sortOption: 'id-asc',
     lastFetchTime: 0,
     cacheExpiration: 3600000,
+
+    pokemonDetailCache: {} as Record<number, any>,
   }),
 
   getters: {

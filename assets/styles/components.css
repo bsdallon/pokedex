@@ -55,8 +55,9 @@
 }
 
 .type-selected {
-  transform: scale(1.08); /* Increased from 1.03 to 1.08 for more growth */
+  transform: scale(1.08);
   filter: brightness(1.05) contrast(1.05);
+  box-shadow: 0 4px 16px 0 rgba(30, 30, 30, 0.28), 0 1.5px 6px 0 rgba(0, 0, 0, 0.18);
 }
 
 .type-selected::before {

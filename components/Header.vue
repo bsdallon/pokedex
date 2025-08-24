@@ -142,9 +142,6 @@
     display: inline-block;
     width: auto;
   }
-  .pokemon-title:hover {
-    filter: brightness(1.1) drop-shadow(0 0 6px #ffcb05);
-  }
 
   .header-right {
     display: flex;

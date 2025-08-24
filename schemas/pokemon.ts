@@ -20,9 +20,11 @@ export const PokemonTypeSchema = z.object({
 // Sprites Schema
 export const PokemonSpritesSchema = z.object({
   front_default: z.string().url(),
+  front_shiny: z.string().url().optional(),
   other: z.object({
     'official-artwork': z.object({
       front_default: z.string().url(),
+      front_shiny: z.string().url().optional(),
     }),
   }),
 })

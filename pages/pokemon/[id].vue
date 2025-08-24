@@ -40,10 +40,11 @@
             </button>
           </div>
 
-          <div class="pokemon-title-center">
-            <h1>
+          <div class="pokemon-title-center" style="display: flex; align-items: center; gap: 0.5rem">
+            <h1 style="display: flex; align-items: center; gap: 0.5rem; margin: 0">
               {{ formatName(pokemon.name) }}
               <span class="pokemon-id">#{{ String(pokemon.id).padStart(4, '0') }}</span>
+              <ShinyToggle v-model="showShiny" />
             </h1>
           </div>
 
@@ -87,11 +88,19 @@
               draggable="false"
               aria-hidden="true"
             />
-            <div class="pokemon-main-image">
+            <div
+              class="pokemon-main-image"
+              style="position: relative; display: flex; flex-direction: column; align-items: center"
+            >
+              <div style="position: absolute; top: 12px; left: 12px; z-index: 2">
+                <ShinyToggle v-model="showShiny" />
+              </div>
               <img
                 :src="
-                  pokemon.sprites.other['official-artwork'].front_default ||
-                  pokemon.sprites.front_default
+                  showShiny
+                    ? getPokemonShinyImage(pokemon)
+                    : pokemon.sprites.other['official-artwork'].front_default ||
+                      pokemon.sprites.front_default
                 "
                 :alt="pokemon.name"
               />
@@ -223,6 +232,10 @@
 </template>
 
 <script setup lang="ts">
+  import ShinyToggle from '../../components/ShinyToggle.vue'
+  import { ref } from 'vue'
+  import { getPokemonShinyImage } from '~/utils/shinyImage'
+  const showShiny = ref(false)
   const typeToSvg = {
     bug: '/assets/images/type_bug.svg',
     dark: '/assets/images/type_dark.svg',
@@ -593,7 +606,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Removed shadow */
     box-shadow: none;
     transition: transform 0.18s;
     position: relative;
@@ -605,7 +617,6 @@
     pointer-events: none;
   }
   .nav-circle-chevron:hover:not(:disabled) {
-    /* No shadow on hover */
     transform: scale(1.08);
   }
   .nav-circle-chevron:hover .circle-chevron-svg polyline {
