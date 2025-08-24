@@ -10,22 +10,65 @@
         <div class="pokemon-detail-header">
           <div class="pokemon-navigation">
             <button
-              class="nav-button"
+              v-if="pokemon.id > 1"
+              class="nav-circle-chevron"
               @click="navigateToPokemon(pokemon.id - 1)"
               :disabled="pokemon.id === 1"
+              aria-label="Previous Pokémon"
             >
-              &lt; #{{ String(pokemon.id - 1).padStart(4, '0') }}
+              <svg
+                class="circle-chevron-svg"
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="32" cy="32" r="30" fill="#f7f7fa" />
+                <polyline
+                  points="40,16 24,32 40,48"
+                  stroke="#0d47a1"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+              </svg>
             </button>
           </div>
 
-          <h1>
-            {{ formatName(pokemon.name) }}
-            <span class="pokemon-id">#{{ String(pokemon.id).padStart(4, '0') }}</span>
-          </h1>
+          <div class="pokemon-title-center">
+            <h1>
+              {{ formatName(pokemon.name) }}
+              <span class="pokemon-id">#{{ String(pokemon.id).padStart(4, '0') }}</span>
+            </h1>
+          </div>
 
           <div class="pokemon-navigation">
-            <button class="nav-button" @click="navigateToPokemon(pokemon.id + 1)">
-              #{{ String(pokemon.id + 1).padStart(4, '0') }} &gt;
+            <button
+              v-if="pokemon.id < 1025"
+              class="nav-circle-chevron"
+              @click="navigateToPokemon(pokemon.id + 1)"
+              aria-label="Next Pokémon"
+            >
+              <svg
+                class="circle-chevron-svg"
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="32" cy="32" r="30" fill="#f7f7fa" />
+                <polyline
+                  points="24,16 40,32 24,48"
+                  stroke="#0d47a1"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+              </svg>
             </button>
           </div>
         </div>
@@ -450,6 +493,68 @@
 </script>
 
 <style scoped>
+  .pokemon-detail-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  .pokemon-title-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .pokemon-detail-header {
+    position: relative;
+  }
+  .nav-circle-chevron {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0 16px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Removed shadow */
+    box-shadow: none;
+    transition: transform 0.18s;
+    position: relative;
+    top: -12px;
+  }
+  .nav-circle-chevron:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  .nav-circle-chevron:hover:not(:disabled) {
+    /* No shadow on hover */
+    transform: scale(1.08);
+  }
+  .nav-circle-chevron:hover .circle-chevron-svg polyline {
+    stroke: #ffd600 !important;
+  }
+  .circle-chevron-svg {
+    width: 64px;
+    height: 64px;
+    display: block;
+    border-radius: 50%;
+    margin: auto;
+    box-shadow: none;
+  }
   .pokemon-detail-container {
     max-width: 1300px;
     margin: 0 auto;
@@ -466,6 +571,7 @@
     position: relative;
     overflow: hidden;
   }
+
   .pokemon-type-bg {
     position: absolute;
     left: 30%;
@@ -479,11 +585,26 @@
     filter: drop-shadow(0 4px 32px rgba(0, 0, 0, 0.18));
   }
 
+  @media (max-width: 600px) {
+    .pokemon-type-bg {
+      width: 220px;
+      height: 220px;
+    }
+  }
+
   .pokemon-detail-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .pokemon-detail-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 0 0 0.2em 0;
+    line-height: 1.1;
   }
 
   .pokemon-navigation {
@@ -763,6 +884,15 @@
       transform: scale(1.1);
       max-height: 400px;
     }
+
+    .pokemon-type-bg {
+      width: 260px !important;
+      height: 260px !important;
+      left: 60% !important;
+      top: 0% !important;
+      transform: translate(-50%, 0) scale(1) !important;
+      opacity: 0.7;
+    }
   }
 
   @media (max-width: 600px) {
@@ -780,6 +910,15 @@
 
     .pokemon-detail-header h1 {
       font-size: 1.5rem;
+    }
+
+    .pokemon-type-bg {
+      width: 120px !important;
+      height: 120px !important;
+      left: 55% !important;
+      top: 10% !important;
+      transform: translate(-50%, 0) scale(1) !important;
+      opacity: 0.7;
     }
   }
 </style>

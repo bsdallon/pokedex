@@ -1,10 +1,16 @@
-
 <template>
   <div id="main-app" v-cloak>
     <Head>
-      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-      <link href="https://db.onlinewebfonts.com/c/f4d1593471d222ddebd973210265762a?family=Pokemon+Solid" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://db.onlinewebfonts.com/c/f4d1593471d222ddebd973210265762a?family=Pokemon+Solid"
+        rel="stylesheet"
+      />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      <link rel="icon" type="image/svg+xml" href="/assets/images/pokeball.svg" />
     </Head>
     <ErrorNotification />
     <MainLayout>
@@ -20,13 +26,13 @@
     width: 100%;
     background: var(--background-color, #f7f7f7);
   }
-  </style>
+</style>
 
-  <script setup lang="ts">
-  import MainLayout from '~/components/MainLayout.vue';
-  import LoadingPokeballs from '~/components/LoadingPokeballs.vue';
-  import ErrorNotification from '~/components/ErrorNotification.vue';
-  import { usePokemonStore } from '~/stores/pokemon';
+<script setup lang="ts">
+  import MainLayout from '~/components/MainLayout.vue'
+  import LoadingPokeballs from '~/components/LoadingPokeballs.vue'
+  import ErrorNotification from '~/components/ErrorNotification.vue'
+  import { usePokemonStore } from '~/stores/pokemon'
 
-  const store = usePokemonStore();
+  const store = usePokemonStore()
 </script>
