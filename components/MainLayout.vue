@@ -6,8 +6,8 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
+
 import Header from '~/components/Header.vue';
 </script>
 
@@ -23,8 +23,8 @@ import Header from '~/components/Header.vue';
   flex: 1;
   position: relative;
   padding-top: var(--header-height, 60px);
+  min-height: calc(100vh - var(--header-height, 60px));
   width: 100%;
   box-sizing: border-box;
-  overflow: visible;
 }
 </style>

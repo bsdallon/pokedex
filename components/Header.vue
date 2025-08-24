@@ -33,7 +33,6 @@ const navigateToHome = () => {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   margin-bottom: 1.5rem;
   position: fixed;
-  top: 0;
   left: 0;
   right: 0;
   z-index: 1100;
