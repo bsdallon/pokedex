@@ -122,4 +122,72 @@
   .type-select:focus + .selected-type-display {
     border-color: #e3350d;
   }
+
+  .type-button {
+    width: 100%;
+    padding: 0.35rem 0.25rem;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: all 0.2s ease;
+    user-select: none;
+    text-align: center;
+    min-width: 48px;
+    line-height: 1.2;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .type-button:hover::before {
+    opacity: 1;
+  }
+
+  .type-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .type-selected {
+    transform: scale(1.08);
+    filter: brightness(1.05) contrast(1.05);
+    box-shadow: 0 4px 16px 0 rgba(30, 30, 30, 0.28), 0 1.5px 6px 0 rgba(0, 0, 0, 0.18);
+  }
+
+  .type-selected::before {
+    display: none;
+  }
+
+  .type-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+    transform: none;
+  }
+
+  .type-button:disabled::before,
+  .type-button:disabled::after {
+    display: none;
+  }
 </style>

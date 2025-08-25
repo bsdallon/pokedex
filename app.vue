@@ -21,7 +21,6 @@
 </template>
 
 <style>
-  @import './assets/styles/variables.css';
   #main-app {
     width: 100%;
     background: var(--background-color, #f7f7f7);
