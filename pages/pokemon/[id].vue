@@ -197,7 +197,7 @@
       <template #fallback="{ error, retry }">
         <div class="error-message">
           <img
-            src="~/assets/images/pokemon_not_found.png"
+            src="/assets/images/pokemon_not_found.png"
             alt="Pokemon not found"
             class="error-message__image"
           />
@@ -210,7 +210,7 @@
 
     <div v-if="!isLoading && !pokemon" class="error-message error-message--centered">
       <img
-        src="~/assets/images/pokemon_not_found.png"
+        src="/assets/images/pokemon_not_found.png"
         alt="Pokemon not found"
         class="error-message__image error-message__image--small"
       />

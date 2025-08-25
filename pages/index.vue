@@ -39,7 +39,7 @@
         <template v-else>
           <div class="no-results-message">
             <img
-              src="~/assets/images/pokemon_not_found.png"
+              src="/assets/images/pokemon_not_found.png"
               alt="No results"
               style="width: 80px; opacity: 0.7; margin-bottom: 0.5rem"
             />
@@ -50,7 +50,7 @@
       <template #fallback="{ error, retry }">
         <div class="error-message">
           <img
-            src="~/assets/images/pokemon_not_found.png"
+            src="/assets/images/pokemon_not_found.png"
             alt="Pokemon not found"
             class="error-message__image"
           />

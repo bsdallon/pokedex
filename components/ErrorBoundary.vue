@@ -3,7 +3,7 @@
     <div v-if="error" class="error-boundary">
       <div class="error-boundary__content">
         <img
-          src="~/assets/images/pokemon_not_found.png"
+          src="/assets/images/pokemon_not_found.png"
           alt="Pokemon not found"
           class="error-boundary__image"
         />

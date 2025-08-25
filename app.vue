@@ -10,7 +10,7 @@
         rel="stylesheet"
       />
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-      <link rel="icon" type="image/svg+xml" href="/assets/images/pokeball.svg" />
+      <link rel="icon" type="image/svg+xml" href="/pokeball-yellow.svg" />
     </Head>
     <ErrorNotification />
     <MainLayout>
