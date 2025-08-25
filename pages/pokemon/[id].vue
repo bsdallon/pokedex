@@ -7,7 +7,6 @@
     <div v-if="isLoading">
       <LoadingPokeballs />
     </div>
-
     <ErrorBoundary>
       <div v-if="pokemon">
         <div class="pokemon-detail-header">
@@ -39,7 +38,6 @@
               </svg>
             </button>
           </div>
-
           <div class="pokemon-title-center" style="display: flex; align-items: center; gap: 0.5rem">
             <h1 style="display: flex; align-items: center; gap: 0.5rem; margin: 0">
               {{ formatName(pokemon.name) }}
@@ -47,7 +45,6 @@
               <ShinyToggle v-model="showShiny" />
             </h1>
           </div>
-
           <div class="pokemon-navigation">
             <button
               v-if="pokemon.id < 1025"
@@ -76,7 +73,6 @@
             </button>
           </div>
         </div>
-
         <div class="pokemon-detail-content">
           <div class="pokemon-image-container">
             <!-- Type SVG background -->
@@ -166,8 +162,11 @@
                 </div>
                 <div class="stat-bar-container">
                   <div
-                    :class="['stat-bar', `type-${getPrimaryType}`]"
-                    :style="{ width: `${Math.min(stat.base_stat / 2, 100)}%` }"
+                    class="stat-bar"
+                    :style="{
+                      width: `${Math.min(stat.base_stat / 2, 100)}%`,
+                      background: typeColor,
+                    }"
                   ></div>
                 </div>
               </div>
@@ -178,18 +177,19 @@
               v-if="evolutionChainComplete && evolutionChainComplete.length > 1"
             >
               <h3>Evolutions</h3>
-              <div class="evolution-chain-container">
-                <template v-for="(evo, index) in evolutionChainComplete" :key="evo.id">
-                  <div class="evolution-item" @click="navigateToPokemon(evo.id)">
-                    <img :src="evo.image" :alt="evo.name" />
-                    <div class="evolution-name">{{ formatName(evo.name) }}</div>
-                  </div>
-
-                  <div v-if="index < evolutionChainComplete.length - 1" class="evolution-arrow">
-                    →
-                  </div>
-                </template>
-              </div>
+              <EvolutionTreeNode
+                v-if="evolutionChainTree && isLinearChain(evolutionChainTree)"
+                :row="true"
+                :stages="flattenLinearChain(evolutionChainTree)"
+                :currentId="pokemon.id"
+                @navigate="navigateToPokemon"
+              />
+              <EvolutionTreeNode
+                v-else
+                :node="evolutionChainTree"
+                :currentId="pokemon.id"
+                @navigate="navigateToPokemon"
+              />
             </div>
           </div>
         </div>
@@ -229,10 +229,55 @@
 </template>
 
 <script setup lang="ts">
+  // Helper to check if the evolution tree is linear (no branching)
+  function isLinearChain(tree: any): boolean {
+    if (!tree.children || tree.children.length === 0) return true
+    if (tree.children.length > 1) return false
+    return isLinearChain(tree.children[0])
+  }
+
+  // Helper to flatten a linear evolution tree into an array
+  function flattenLinearChain(tree: any): any[] {
+    const arr = [tree]
+    let node = tree
+    while (node.children && node.children.length === 1) {
+      node = node.children[0]
+      arr.push(node)
+    }
+    return arr
+  }
+  import { computed, ref } from 'vue'
+  // Evolution tree logic
+  function buildEvolutionTree(node: EvolutionNode): any {
+    const id = Number(node.species.url.split('/').filter(Boolean).pop())
+    return {
+      id,
+      name: node.species.name,
+      image: '', // Will be filled in below
+      children: node.evolves_to.map(buildEvolutionTree),
+    }
+  }
+
+  async function fillEvolutionTreeImages(tree: any) {
+    try {
+      const pokemonData = await $fetch<Pokemon>(`${config.public.apiBase}/pokemon/${tree.id}`)
+      tree.image =
+        pokemonData.sprites.other['official-artwork'].front_default ||
+        pokemonData.sprites.front_default
+    } catch (e) {
+      tree.image = ''
+    }
+    if (tree.children && tree.children.length) {
+      await Promise.all(tree.children.map(fillEvolutionTreeImages))
+    }
+  }
+
+  const evolutionChainTree = ref<any>(null)
   import ShinyToggle from '../../components/ShinyToggle.vue'
-  import { ref } from 'vue'
+  // ...existing code...
   import { getPokemonShinyImage } from '~/utils/shinyImage'
   const showShiny = ref(false)
+
   const typeToSvg = {
     bug: '/assets/images/type_bug.svg',
     dark: '/assets/images/type_dark.svg',
@@ -445,10 +490,13 @@
     emit('loading-start')
 
     try {
-      const pokemonData = await $fetch<Pokemon>(`${config.public.apiBase}/pokemon/${pokemonId}`)
-      const speciesData = await $fetch<PokemonSpecies>(
-        `${config.public.apiBase}/pokemon-species/${pokemonId}`
-      )
+      console.log('[fetchPokemonData] Fetching details for ID:', pokemonId)
+      const pokemonUrl = `${config.public.apiBase}/pokemon/${pokemonId}`
+      const speciesUrl = `${config.public.apiBase}/pokemon-species/${pokemonId}`
+      console.log('[fetchPokemonData] Pokemon URL:', pokemonUrl)
+      console.log('[fetchPokemonData] Species URL:', speciesUrl)
+      const pokemonData = await $fetch<Pokemon>(pokemonUrl)
+      const speciesData = await $fetch<PokemonSpecies>(speciesUrl)
 
       const descriptionEntry = speciesData.flavor_text_entries.find(
         (entry) => entry.language.name === 'en'
@@ -461,11 +509,16 @@
       const category = genusEntry ? genusEntry.genus.replace(' Pokémon', '') : 'Unknown'
 
       const evolutionChainId = speciesData.evolution_chain.url.split('/').filter(Boolean).pop()
-      const evolutionData = await $fetch<EvolutionChain>(
-        `${config.public.apiBase}/evolution-chain/${evolutionChainId}`
-      )
+      const evolutionUrl = `${config.public.apiBase}/evolution-chain/${evolutionChainId}`
+      console.log('[fetchPokemonData] Evolution URL:', evolutionUrl)
+      const evolutionData = await $fetch<EvolutionChain>(evolutionUrl)
       const evolutions = await processEvolutionChain(evolutionData.chain)
       evolutionChainComplete.value = evolutions
+
+      // Build and fill the evolution tree for the current Pokémon
+      const tree = buildEvolutionTree(evolutionData.chain)
+      await fillEvolutionTreeImages(tree)
+      evolutionChainTree.value = tree
 
       const adjacentEvolutions = findAdjacentEvolutions(evolutions, pokemonData.id)
       const weaknesses = getWeaknesses(pokemonData.types)
@@ -489,8 +542,17 @@
         },
       }
     } catch (error) {
-      console.error('Error fetching Pokemon details:', error)
+      console.error('[fetchPokemonData] Error fetching Pokemon details:', error)
+      if (error instanceof Error) {
+        // Attach more info for ErrorBoundary
+        ;(error as any).details = JSON.stringify(
+          { pokemonId, config: config.public, route: route.fullPath },
+          null,
+          2
+        )
+      }
       pokemon.value = null
+      throw error
     } finally {
       isLoading.value = false
       emit('loading-end')
@@ -810,10 +872,16 @@
   }
 
   .type-badge {
-    padding: 5px 15px;
-    border-radius: 20px;
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
     color: white;
-    font-size: 14px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-right: 0.35rem;
+    text-align: center;
+    min-width: 48px;
+    line-height: 1.2;
     text-transform: capitalize;
   }
 
@@ -848,51 +916,6 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
-  }
-
-  .evolution-chain {
-    margin-top: 40px;
-  }
-
-  .evolution-chain-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-
-  .evolution-item {
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  .evolution-item:hover {
-    transform: scale(1.05);
-  }
-
-  .evolution-item.active {
-    position: relative;
-    font-weight: bold;
-  }
-
-  .evolution-arrow {
-    font-size: 24px;
-  }
-
-  .evolution-item img {
-    width: 100px;
-    height: 100px;
-    cursor: pointer !important;
-    transition: filter 0.2s;
-  }
-  .evolution-item img:hover {
-    filter: brightness(1.1) drop-shadow(0 0 8px #ffcb05);
-  }
-
-  .evolution-name {
-    margin-top: 10px;
-    text-transform: capitalize;
   }
 
   .grass {

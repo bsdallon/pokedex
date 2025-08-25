@@ -605,10 +605,11 @@ export const usePokemonStore = defineStore('pokemon', {
 
     setGeneration(generation: string | '') {
       this.selectedGeneration = generation
-
-      if (generation) {
+      if (generation === 'all') {
+        this.rangeMin = 1
+        this.rangeMax = 1025
+      } else if (generation) {
         const generations = this.allGenerations
-
         if (generations[generation]) {
           const range = generations[generation].range
           this.rangeMin = range[0]

@@ -151,7 +151,11 @@
     () => selectedGeneration.value,
     (newValue) => {
       store.setGeneration(newValue)
-      if (newValue && newValue !== 'all') {
+      if (newValue === 'all') {
+        rangeMin.value = MIN_POKEMON_ID.toString()
+        rangeMax.value = MAX_POKEMON_ID.toString()
+        store.setRange(MIN_POKEMON_ID, MAX_POKEMON_ID)
+      } else if (newValue) {
         const gen = store.allGenerations[newValue]
         if (gen) {
           rangeMin.value = gen.range[0].toString()
@@ -174,9 +178,11 @@
   const resetAdvancedFilters = () => {
     store.$state.selectedTypes = []
     selectedGeneration.value = ''
+    searchQuery.value = ''
     rangeMin.value = MIN_POKEMON_ID.toString()
     rangeMax.value = '60'
     store.setRange(MIN_POKEMON_ID, 60)
+    store.setSearchQuery('')
   }
 </script>
 

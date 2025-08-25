@@ -8,7 +8,46 @@
           class="error-boundary__image"
         />
         <h3>Oh no! We could not find that Pokémon!</h3>
-        <p>{{ error.message || 'Something went wrong while searching for Pokémon' }}</p>
+        <p>
+          <template v-if="error && error.message && error.message.includes('Failed to fetch')">
+            Unable to connect to the Pokémon API. Please check your internet connection or try again
+            later.<br />
+            <span style="font-size: 0.95em; color: #b71c1c">(Network error: Failed to fetch)</span>
+          </template>
+          <template v-else>
+            {{ error.message || 'Something went wrong while searching for Pokémon' }}
+          </template>
+        </p>
+        <pre
+          v-if="error && error.stack"
+          style="
+            text-align: left;
+            max-width: 100%;
+            overflow-x: auto;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            font-size: 0.95em;
+          "
+        >
+          {{ error.stack }}
+        </pre>
+        <pre
+          v-if="error && 'details' in error && (error as any).details"
+          style="
+            text-align: left;
+            max-width: 100%;
+            overflow-x: auto;
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            font-size: 0.95em;
+          "
+        >
+          {{ (error as any).details }}
+        </pre>
         <button @click="retry" class="error-boundary__button">Go Back</button>
       </div>
     </div>
