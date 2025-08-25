@@ -10,7 +10,7 @@
           v-model:rangeMax="rangeMax"
           v-model:selectedGeneration="selectedGeneration"
           v-model:filterMode="filterMode"
-          v-model:selectedTypes="store.$state.selectedTypes"
+          v-model:selectedTypes="selectedTypes"
           :generations="store.allGenerations"
           :pokemonTypes="store.pokemonTypes"
           @resetFilters="resetAdvancedFilters"
@@ -18,18 +18,34 @@
       </div>
     </div>
 
-    <div class="sort-container">
-      <SortOptions v-model:sortOption="store.sortOption" />
+    <div class="sort-container flex-sort-row">
+      <div class="showing-count">
+        Showing: {{ store.filteredPokemons.filter((p) => p && p.id).length }}
+      </div>
+      <div class="sort-options-wrapper">
+        <SortOptions v-model:sortOption="store.sortOption" />
+      </div>
     </div>
 
     <ErrorBoundary>
       <div class="pokemon-grid">
-        <PokemonCard
-          v-for="pokemon in store.filteredPokemons"
-          :key="pokemon.id"
-          v-memo="[pokemon.id, pokemon.name, pokemon.types]"
-          :pokemon="{ ...pokemon, types: pokemon.types ?? [] }"
-        />
+        <template v-if="store.filteredPokemons.length > 0">
+          <PokemonCard
+            v-for="pokemon in store.filteredPokemons.filter((p) => p && p.id)"
+            :key="pokemon.id"
+            :pokemon="{ ...pokemon, types: pokemon.types ?? [] }"
+          />
+        </template>
+        <template v-else>
+          <div class="no-results-message">
+            <img
+              src="~/assets/images/pokemon_not_found.png"
+              alt="No results"
+              style="width: 80px; opacity: 0.7; margin-bottom: 0.5rem"
+            />
+            <div>No Pokémon found. Try a different search or adjust your filters.</div>
+          </div>
+        </template>
       </div>
       <template #fallback="{ error, retry }">
         <div class="error-message">
@@ -62,6 +78,25 @@
   const store = usePokemonStore()
   const searchQuery = ref('')
   const selectedGeneration = ref('')
+  const selectedTypes = ref([...store.$state.selectedTypes])
+  // Sync selectedTypes with store
+  watch(
+    selectedTypes,
+    (val) => {
+      store.selectedTypes = [...val]
+    },
+    { deep: true }
+  )
+
+  watch(
+    () => store.$state.selectedTypes,
+    (val) => {
+      if (JSON.stringify(selectedTypes.value) !== JSON.stringify(val)) {
+        selectedTypes.value = [...val]
+      }
+    },
+    { deep: true }
+  )
   const rangeMin = ref(store.$state.rangeMin.toString())
   const rangeMax = ref(store.$state.rangeMax.toString())
   const showAdvancedFilters = ref(false)
@@ -88,6 +123,11 @@
     () => searchQuery.value,
     (newQuery) => {
       store.setSearchQuery(newQuery)
+      if (newQuery === '') {
+        rangeMin.value = MIN_POKEMON_ID.toString()
+        rangeMax.value = MAX_POKEMON_ID.toString()
+        store.setRange(MIN_POKEMON_ID, MAX_POKEMON_ID)
+      }
     }
   )
 
@@ -111,13 +151,22 @@
     () => selectedGeneration.value,
     (newValue) => {
       store.setGeneration(newValue)
-      if (newValue === '' || newValue === 'all') {
-        rangeMin.value = MIN_POKEMON_ID.toString()
-        rangeMax.value = MAX_POKEMON_ID.toString()
-        store.setRange(MIN_POKEMON_ID, MAX_POKEMON_ID)
-      } else {
-        rangeMin.value = store.$state.rangeMin.toString()
-        rangeMax.value = store.$state.rangeMax.toString()
+      if (newValue && newValue !== 'all') {
+        const gen = store.allGenerations[newValue]
+        if (gen) {
+          rangeMin.value = gen.range[0].toString()
+          rangeMax.value = gen.range[1].toString()
+          store.setRange(gen.range[0], gen.range[1])
+        }
+      }
+    }
+  )
+
+  watch(
+    () => store.$state.selectedTypes.length,
+    (len) => {
+      if (len === 0) {
+        store.setRange(parseInt(rangeMin.value), parseInt(rangeMax.value))
       }
     }
   )
@@ -132,6 +181,32 @@
 </script>
 
 <style scoped>
+  .flex-sort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .search-controls {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .showing-count {
+    color: #888;
+    font-size: 0.98rem;
+    min-width: 120px;
+    text-align: left;
+    align-self: flex-end;
+    padding-bottom: 2px;
+  }
+
+  .sort-options-wrapper {
+    margin-left: auto;
+  }
+
   .filter-toggle .material-icons {
     line-height: 1;
     font-size: 1.7rem;
@@ -171,8 +246,12 @@
   .search-controls {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0;
     width: 100%;
+  }
+
+  .sort-container {
+    margin-bottom: 1.25rem;
   }
 
   .loading-wrapper {

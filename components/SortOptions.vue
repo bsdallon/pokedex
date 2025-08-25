@@ -59,7 +59,7 @@
     'update:sortOption': [string]
   }>()
 
-  import { computed, ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
 
   const sortField = ref(props.sortOption.split('-')[0] || 'id')
   const sortDirection = ref(props.sortOption.split('-')[1] || 'asc')

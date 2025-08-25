@@ -369,7 +369,7 @@
   }
 
   .advanced-filters.show {
-    margin: 0;
+    margin-top: 1rem;
     background-color: var(--card-color);
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);

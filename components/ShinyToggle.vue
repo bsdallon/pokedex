@@ -8,9 +8,9 @@
   >
     <svg
       class="shiny-icon"
+      :style="{ fill: modelValue ? '#ffd700' : '#b0b0b0' }"
       viewBox="0 0 608 608"
       xmlns="http://www.w3.org/2000/svg"
-      :style="{ fill: modelValue ? '#ffd700' : '#b0b0b0' }"
       aria-hidden="true"
     >
       <path
@@ -42,10 +42,38 @@
     width: 44px;
     height: 44px;
     cursor: pointer;
-    transition: none;
-    box-shadow: none;
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
     padding: 0;
     outline: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  .shiny-toggle-btn::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 15px;
+    pointer-events: none;
+    z-index: 0;
+    box-shadow: 0 0 16px 5px rgba(180, 180, 200, 0.28);
+    opacity: 0.85;
+    animation: shiny-glow 2.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes shiny-glow {
+    0% {
+      opacity: 0.7;
+      box-shadow: 0 0 10px 2px rgba(180, 180, 200, 0.22);
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 20px 7px rgba(180, 180, 200, 0.38);
+    }
   }
   .shiny-toggle-btn.active,
   .shiny-toggle-btn:not(.active),
@@ -58,5 +86,6 @@
     width: 24px;
     height: 24px;
     display: block;
+    transition: fill 0.3s;
   }
 </style>

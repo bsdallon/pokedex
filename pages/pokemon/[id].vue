@@ -92,9 +92,6 @@
               class="pokemon-main-image"
               style="position: relative; display: flex; flex-direction: column; align-items: center"
             >
-              <div style="position: absolute; top: 12px; left: 12px; z-index: 2">
-                <ShinyToggle v-model="showShiny" />
-              </div>
               <img
                 :src="
                   showShiny
