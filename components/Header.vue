@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch, onMounted } from 'vue'
+  import { ref, onMounted } from 'vue'
 
   const backgroundOptions = [
     { value: 'grey', label: 'Modern Grey' },

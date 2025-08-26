@@ -21,7 +21,7 @@
 
     <div class="sort-container flex-sort-row">
       <div class="showing-count">
-        Showing: {{ store.filteredPokemons.filter((p) => p && p.id).length }}
+        Showing: {{ store.filteredPokemons.filter((p: { id: any }) => p && p.id).length }}
       </div>
       <div class="sort-options-wrapper">
         <SortOptions v-model:sortOption="store.sortOption" />
@@ -32,7 +32,7 @@
       <div class="pokemon-grid">
         <template v-if="store.filteredPokemons.length > 0">
           <PokemonCard
-            v-for="pokemon in store.filteredPokemons.filter((p) => p && p.id)"
+            v-for="pokemon in store.filteredPokemons.filter((p: { id: any }) => p && p.id)"
             :key="pokemon.id"
             :pokemon="{ ...pokemon, types: pokemon.types ?? [] }"
           />

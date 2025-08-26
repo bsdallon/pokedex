@@ -9,9 +9,14 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
+  ssr: true,
+  nitro: {
+    preset: 'github_pages',
+  },
   app: {
+    baseURL: '/pokedex/',
     head: {
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/assets/images/pokeball.svg' }],
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/pokedex/assets/images/pokeball.svg' }],
     },
   },
 })
