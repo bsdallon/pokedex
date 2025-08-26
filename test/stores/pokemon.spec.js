@@ -11,8 +11,10 @@ describe('Pokemon Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
     store = usePokemonStore()
-
     store.pokemons = [...mockPokemonList]
+    // Ensure loading state is false for tests
+    store.loadingStates.fetchingList = false
+    store.loadingStates.global = false
   })
 
   describe('filteredPokemons getter', () => {

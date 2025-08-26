@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+  import { navigateTo } from '#app'
+
   const navigateToHome = () => {
     navigateTo('/')
   }

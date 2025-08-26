@@ -4,12 +4,19 @@ A comprehensive Pokémon information website built with Nuxt 3, TypeScript, and 
 
 ## Features
 
-- Display a list of Pokémon with thumbnails
-- Search Pokémon by name
-- Filter by type/weakness and generation
-- Sort by ID or name
-- View detailed information for each Pokémon
-- Mobile-friendly responsive design
+- Display a list of Pokemon with thumbnails
+- Global search with instant filtering by name or number
+- Filter by type and weakness (multi-select)
+- Sort options (by ID, name, etc.)
+- Shiny toggle for Pokemon images
+- Type badge color coding
+- Error handling with user-friendly messages
+- Loading indicators (animated Pokeballs)
+- Evolution tree visualization
+- Local storage caching for API responses
+- Accessibility improvements (keyboard navigation, ARIA labels)
+- Responsive design for mobile and desktop
+- Advanced filters (if enabled)
 
 ## Setup
 
@@ -104,6 +111,7 @@ yarn test
 ```
 
 Tests cover:
+
 - Utility functions (formatters)
 - Vue components (PokemonCard, SearchBar)
 - Pinia stores (pokemon)

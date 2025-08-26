@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['type-button', `type-${type}`, { 'type-selected': selected }]"
+    :class="['type-button', type.toLowerCase(), { 'type-selected': selected }]"
     @click="$emit('click')"
     :disabled="disabled"
   >
@@ -47,7 +47,7 @@
     background-color: #c03028;
   }
   .type-poison {
-    background-color: #b567ce;
+    background-color: #a040a0;
   }
   .type-ground {
     background-color: #e0c068;
