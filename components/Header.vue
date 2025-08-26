@@ -76,9 +76,10 @@
     midnight: 'linear-gradient(120deg, #5a5d6c 0%, #232526 60%, #414345 100%)',
     typeTheme: '', // will be set dynamically
   }
+  // Always default to Modern Grey if no theme is set
   const selectedBg = ref(
     typeof window !== 'undefined' && window.localStorage
-      ? localStorage.getItem('pokedex-bg') || 'grey'
+      ? localStorage.getItem('pokedex-bg') || (localStorage.setItem('pokedex-bg', 'grey'), 'grey')
       : 'grey'
   )
 

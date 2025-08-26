@@ -165,7 +165,7 @@
                     class="stat-bar"
                     :style="{
                       width: `${Math.min(stat.base_stat / 2, 100)}%`,
-                      background: typeColor,
+                      background: statTypeColor,
                     }"
                   ></div>
                 </div>
@@ -326,12 +326,15 @@
 
   import { useTypeThemeActive } from '~/composables/useTypeThemeActive'
   const { isTypeThemeActive } = useTypeThemeActive()
+
   const typeColor = computed(() => {
-    if (isTypeThemeActive.value) {
-      const type = getPrimaryType.value as keyof typeof typeToColor
-      return typeToColor[type] || '#ffe066'
-    }
-    return '#f2f2f2'
+    const type = getPrimaryType.value as keyof typeof typeToColor
+    return typeToColor[type] || '#ffe066'
+  })
+
+  const statTypeColor = computed(() => {
+    const type = getPrimaryType.value as keyof typeof typeToColor
+    return typeToColor[type] || '#ffe066'
   })
 
   import { useRouter, useRoute } from 'vue-router'
