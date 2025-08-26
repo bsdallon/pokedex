@@ -1,3 +1,4 @@
+<!--Home-->
 <template>
   <div class="container" v-cloak>
     <div class="search-container">
@@ -79,7 +80,7 @@
   const searchQuery = ref('')
   const selectedGeneration = ref('')
   const selectedTypes = ref([...store.$state.selectedTypes])
-  // Sync selectedTypes with store
+
   watch(
     selectedTypes,
     (val) => {
@@ -225,14 +226,6 @@
     position: relative;
     top: 2px;
   }
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100%;
-  }
 
   .container {
     width: 100%;
@@ -344,70 +337,6 @@
 
   .type-button:disabled::before,
   .type-button:disabled::after {
-    display: none;
-  }
-
-  .type-button.type-normal {
-    background-color: #a8a878;
-  }
-  .type-button.type-fire {
-    background-color: #f08030;
-  }
-  .type-button.type-water {
-    background-color: #6890f0;
-  }
-  .type-button.type-electric {
-    background-color: #f8d030;
-  }
-  .type-button.type-grass {
-    background-color: #78c850;
-  }
-  .type-button.type-ice {
-    background-color: #98d8d8;
-  }
-  .type-button.type-fighting {
-    background-color: #c03028;
-  }
-  .type-button.type-poison {
-    background-color: #a040a0;
-  }
-  .type-button.type-ground {
-    background-color: #e0c068;
-  }
-  .type-button.type-flying {
-    background-color: #a890f0;
-  }
-  .type-button.type-psychic {
-    background-color: #f85888;
-  }
-  .type-button.type-bug {
-    background-color: #a8b820;
-  }
-  .type-button.type-rock {
-    background-color: #b8a038;
-  }
-  .type-button.type-ghost {
-    background-color: #705898;
-  }
-  .type-button.type-dragon {
-    background-color: #7038f8;
-  }
-  .type-button.type-dark {
-    background-color: #705848;
-  }
-  .type-button.type-steel {
-    background-color: #b8b8d0;
-  }
-  .type-button.type-fairy {
-    background-color: #ee99ac;
-  }
-
-  /* Prevent flash of unstyled content */
-  html.loading .container > *:not(.loading-wrapper) {
-    display: none;
-  }
-
-  [v-cloak] {
     display: none;
   }
 

@@ -83,7 +83,8 @@
             <div class="feature-card">
               <h3 class="feature-card__title">More Advanced Search Options</h3>
               <p class="feature-card__description">
-                Being able to search based off height and weight could be a useful addition.
+                Being able to search based off height, weight, and abilities could be a useful
+                addition.
               </p>
             </div>
 
