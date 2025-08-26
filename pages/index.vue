@@ -44,7 +44,9 @@
               alt="No results"
               style="width: 80px; opacity: 0.7; margin-bottom: 0.5rem"
             />
-            <div>No Pokémon found. Try a different search or adjust your filters.</div>
+            <div class="no-results-text">
+              No Pokémon found. Try a different search or adjust your filters.
+            </div>
           </div>
         </template>
       </div>
@@ -81,10 +83,28 @@
   const selectedGeneration = ref('')
   const selectedTypes = ref([...store.$state.selectedTypes])
 
+  // Helper to notify header for type theme
+  function notifyTypeThemeUpdate() {
+    if (typeof window !== 'undefined') {
+      // Debug log selectedTypes and store.selectedTypes
+      // @ts-ignore
+      if (window.__NUXT__ && window.__NUXT__.data && window.__NUXT__.data[0]?.store) {
+        console.log(
+          '[TypeTheme][index.vue] selectedTypes:',
+          selectedTypes.value,
+          'store.selectedTypes:',
+          window.__NUXT__.data[0].store.selectedTypes
+        )
+      }
+      window.dispatchEvent(new Event('type-theme-update'))
+    }
+  }
+
   watch(
     selectedTypes,
     (val) => {
       store.selectedTypes = [...val]
+      notifyTypeThemeUpdate()
     },
     { deep: true }
   )
@@ -94,6 +114,7 @@
     (val) => {
       if (JSON.stringify(selectedTypes.value) !== JSON.stringify(val)) {
         selectedTypes.value = [...val]
+        notifyTypeThemeUpdate()
       }
     },
     { deep: true }
@@ -111,6 +132,7 @@
   onMounted(async () => {
     try {
       await store.fetchPokemons()
+      notifyTypeThemeUpdate()
     } catch (error: any) {
       console.error('Error loading data:', error)
       errorStore.addError(
@@ -124,6 +146,7 @@
     () => searchQuery.value,
     (newQuery) => {
       store.setSearchQuery(newQuery)
+      notifyTypeThemeUpdate()
       if (newQuery === '') {
         rangeMin.value = MIN_POKEMON_ID.toString()
         rangeMax.value = MAX_POKEMON_ID.toString()
@@ -202,8 +225,9 @@
   }
 
   .showing-count {
-    color: #888;
-    font-size: 0.98rem;
+    color: #222;
+    font-size: 1rem;
+    font-weight: 600;
     min-width: 120px;
     text-align: left;
     align-self: flex-end;
@@ -352,5 +376,11 @@
     to {
       opacity: 1;
     }
+  }
+  .no-results-text {
+    color: #222;
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-top: 0.5rem;
   }
 </style>

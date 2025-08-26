@@ -81,6 +81,14 @@
 
           <div class="future-features">
             <div class="feature-card">
+              <h3 class="feature-card__title">Database Integration</h3>
+              <p class="feature-card__description">
+                Implement a database to store API data, then only re-call the API data when
+                necessary.
+              </p>
+            </div>
+
+            <div class="feature-card">
               <h3 class="feature-card__title">More Advanced Search Options</h3>
               <p class="feature-card__description">
                 Being able to search based off height, weight, and abilities could be a useful
@@ -118,15 +126,7 @@
                 Create a fun mini-game where users guess the Pokemon based on silhouettes or hints.
               </p>
             </div>
-
-            <div class="feature-card">
-              <h3 class="feature-card__title">Animations</h3>
-              <p class="feature-card__description">
-                Add more sophisticated animations and transitions to enhance the user experience.
-              </p>
-            </div>
           </div>
-
           <p class="feedback-note">
             I really enjoyed working on this project and learning more about Vue.js and Nuxt 3. If
             you have any feedback or suggestions, feel free to reach out!

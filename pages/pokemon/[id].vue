@@ -229,14 +229,12 @@
 </template>
 
 <script setup lang="ts">
-  // Helper to check if the evolution tree is linear (no branching)
   function isLinearChain(tree: any): boolean {
     if (!tree.children || tree.children.length === 0) return true
     if (tree.children.length > 1) return false
     return isLinearChain(tree.children[0])
   }
 
-  // Helper to flatten a linear evolution tree into an array
   function flattenLinearChain(tree: any): any[] {
     const arr = [tree]
     let node = tree
@@ -247,13 +245,15 @@
     return arr
   }
   import { computed, ref } from 'vue'
-  // Evolution tree logic
+  import { usePokemonStore } from '~/stores/pokemon'
+  const store = usePokemonStore()
+
   function buildEvolutionTree(node: EvolutionNode): any {
     const id = Number(node.species.url.split('/').filter(Boolean).pop())
     return {
       id,
       name: node.species.name,
-      image: '', // Will be filled in below
+      image: '',
       children: node.evolves_to.map(buildEvolutionTree),
     }
   }
@@ -274,7 +274,6 @@
 
   const evolutionChainTree = ref<any>(null)
   import ShinyToggle from '../../components/ShinyToggle.vue'
-  // ...existing code...
   import { getPokemonShinyImage } from '~/utils/shinyImage'
   const showShiny = ref(false)
 
@@ -325,10 +324,16 @@
     return typeToSvg[type] || ''
   })
 
+  import { useTypeThemeActive } from '~/composables/useTypeThemeActive'
+  const { isTypeThemeActive } = useTypeThemeActive()
   const typeColor = computed(() => {
-    const type = getPrimaryType.value as keyof typeof typeToColor
-    return typeToColor[type] || '#ffe066'
+    if (isTypeThemeActive.value) {
+      const type = getPrimaryType.value as keyof typeof typeToColor
+      return typeToColor[type] || '#ffe066'
+    }
+    return '#f2f2f2'
   })
+
   import { useRouter, useRoute } from 'vue-router'
   import type {
     Pokemon,
@@ -498,6 +503,15 @@
       const pokemonData = await $fetch<Pokemon>(pokemonUrl)
       const speciesData = await $fetch<PokemonSpecies>(speciesUrl)
 
+      const types =
+        pokemonData.types
+          ?.map((t) => t.type.name)
+          .filter((x): x is string => typeof x === 'string') || []
+      store.selectedTypes = types.length > 0 ? [types[0] as string] : []
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('type-theme-update'))
+      }
+
       const descriptionEntry = speciesData.flavor_text_entries.find(
         (entry) => entry.language.name === 'en'
       )
@@ -515,7 +529,6 @@
       const evolutions = await processEvolutionChain(evolutionData.chain)
       evolutionChainComplete.value = evolutions
 
-      // Build and fill the evolution tree for the current Pokémon
       const tree = buildEvolutionTree(evolutionData.chain)
       await fillEvolutionTreeImages(tree)
       evolutionChainTree.value = tree
@@ -544,7 +557,6 @@
     } catch (error) {
       console.error('[fetchPokemonData] Error fetching Pokemon details:', error)
       if (error instanceof Error) {
-        // Attach more info for ErrorBoundary
         ;(error as any).details = JSON.stringify(
           { pokemonId, config: config.public, route: route.fullPath },
           null,
@@ -698,9 +710,9 @@
     box-shadow: none;
   }
   .pokemon-detail-container {
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 0 0.75rem;
     min-height: 95vh;
     display: flex;
     flex-direction: column;
@@ -742,7 +754,7 @@
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 38px;
   }
 
   .pokemon-detail-header h1 {
