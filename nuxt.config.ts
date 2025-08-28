@@ -16,7 +16,13 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/pokedex/',
     head: {
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/pokedex/assets/images/pokeball.svg' }],
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/pokedex/assets/images/pokeball.svg',
+        },
+      ],
     },
   },
 })
